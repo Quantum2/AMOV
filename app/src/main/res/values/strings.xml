@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Chess</string>
+    <string name="single_player">Single player</string>
+    <string name="multiplayer">Multi player</string>
+    <string name="no_connection">Not connected to a network</string>
+    <string name="ai_or_people">Do you want to play against the computer or with someone on the same network ?</string>
+    <string name="ai">AI</string>
+    <string name="people">Player</string>
+</resources>
