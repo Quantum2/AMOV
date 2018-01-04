@@ -3,7 +3,6 @@ package com.imaginarymakings.chess;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Handler;
 
 import com.imaginarymakings.chess.Logic.Piece;
 
@@ -53,12 +52,12 @@ public class NetworkManager {
                     ServerSocket ss = new ServerSocket(SERVERPORT);
 
                     while (!end){
-                        //Server is waiting for client here, if needed
                         Socket s = ss.accept();
 
                         ObjectInputStream is = new ObjectInputStream(s.getInputStream());
                         ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
 
+                        pieces = (Piece[]) is.readObject();
                         os.writeObject(pieces);
 
                         try {
@@ -69,7 +68,7 @@ public class NetworkManager {
                     }
 
                     ss.close();
-                } catch (IOException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
@@ -77,22 +76,28 @@ public class NetworkManager {
     }
 
     public void startClient(final String ip) {
-        final Handler handler = new Handler();
-
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 try {
-                    //Replace below IP with the IP of that device in which server socket open.
-                    //If you change port then change the port number in the server side code also.
                     Socket s = new Socket(ip, SERVERPORT);
-
                     ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
+                    ObjectInputStream is = new ObjectInputStream(s.getInputStream());
+
+                    while (!end){
+                         os.writeObject(pieces);
+                         pieces = (Piece[]) is.readObject();
+
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
                     os.close();
                     s.close();
-                } catch (IOException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }

@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import com.imaginarymakings.chess.Logic.Piece;
 import com.imaginarymakings.chess.R;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by rafaelfrancisco on 29/12/17.
  */
@@ -22,15 +25,15 @@ public class Utils {
         try
         {
             bmp2 = Bitmap.createScaledBitmap(bmp2, bmp1.getWidth(), bmp1.getHeight(), true);
-
             Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(),  bmp1.getConfig());
+
             Canvas canvas = new Canvas(bmOverlay);
             canvas.drawBitmap(bmp1, new Matrix(), null);
             canvas.drawBitmap(bmp2, 0, 0, null);
+
             return bmOverlay;
         } catch (Exception e)
         {
-            // TODO: handle exception
             e.printStackTrace();
             return null;
         }
@@ -112,5 +115,21 @@ public class Utils {
                     haveConnectedWifi = true;
         }
         return haveConnectedWifi;
+    }
+
+    public static boolean isValidIP(String ip){
+        Pattern IP_ADDRESS
+                = Pattern.compile(
+                "((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
+                        + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
+                        + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
+                        + "|[1-9][0-9]|[0-9]))");
+        Matcher matcher = IP_ADDRESS.matcher(ip);
+
+        if (matcher.matches()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.imaginarymakings.chess.Dialogs.ConnectDialog;
 import com.imaginarymakings.chess.Logic.ChessMoves;
 import com.imaginarymakings.chess.Logic.Piece;
 import com.imaginarymakings.chess.Logic.SpaceAdapter;
@@ -86,8 +87,14 @@ public class ChessActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(aiReceiver,
                 new IntentFilter("ai"));
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(playerReceiver,
-                new IntentFilter("player"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(serverReceived,
+                new IntentFilter("server"));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(clientReceived,
+                new IntentFilter("client"));
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(onRefresh,
+                new IntentFilter("refresh"));
 
         nm = new NetworkManager(this);
 
@@ -102,13 +109,34 @@ public class ChessActivity extends AppCompatActivity {
         }
     };
 
-    private BroadcastReceiver playerReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver serverReceived = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             nm.startServer();
 
             tv.setText(String.format(getString(R.string.your_ip), nm.getCurrentIP()));
             tv.setText(String.format("%s\n%s", tv.getText(), getString(R.string.waiting_conn)));
+        }
+    };
+
+    private BroadcastReceiver clientReceived = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String ipAddress = intent.getStringExtra("ip");
+            nm.startClient(ipAddress);
+
+            tv.setText(String.format(getString(R.string.your_ip), nm.getCurrentIP()));
+            tv.setText(String.format("%s\n%s", tv.getText(), getString(R.string.waiting_conn)));
+        }
+    };
+
+    private BroadcastReceiver onRefresh = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            SpaceAdapter adapter = (SpaceAdapter) gv.getAdapter();
+
+            adapter.pieces = nm.getPieces();
+            adapter.notifyDataSetChanged();
         }
     };
 }

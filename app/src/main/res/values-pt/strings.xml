@@ -9,4 +9,10 @@
     <string name="people">Jogador</string>
     <string name="your_ip">O seu IP é %s</string>
     <string name="waiting_conn">A aguardar conexão...</string>
+    <string name="server_or_client">Quer ser o servidor ou um cliente ?</string>
+    <string name="server">Servidor</string>
+    <string name="client">Cliente</string>
+    <string name="choose_ip">Introduza o endereço IP do servidor</string>
+    <string name="confirm_ip">Confirmar</string>
+    <string name="invalid_ip">Endereço IP inválido</string>
 </resources>

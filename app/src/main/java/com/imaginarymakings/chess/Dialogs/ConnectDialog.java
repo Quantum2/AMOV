@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess;
+package com.imaginarymakings.chess.Dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+
+import com.imaginarymakings.chess.R;
 
 /**
  * Created by rafaelfrancisco on 02/01/18.
@@ -26,7 +28,6 @@ public class ConnectDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.ai_or_people)
                 .setPositiveButton(R.string.ai, new DialogInterface.OnClickListener() {
@@ -37,11 +38,12 @@ public class ConnectDialog extends DialogFragment {
                 })
                 .setNegativeButton(R.string.people, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent intent = new Intent("player");
-                        LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
+                        ChooseDialog cDialog = new ChooseDialog(c);
+                        cDialog.show(getFragmentManager(), "Chess activity");
+                        dismiss();
                     }
                 });
-        // Create the AlertDialog object and return it
+
         return builder.create();
     }
 }
