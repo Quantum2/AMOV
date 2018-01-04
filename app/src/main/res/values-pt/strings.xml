@@ -7,4 +7,6 @@
     <string name="ai_or_people">Quer jogar contra o computador ou contra alguém na rede local ?</string>
     <string name="ai">Computador</string>
     <string name="people">Jogador</string>
+    <string name="your_ip">O seu IP é %s</string>
+    <string name="waiting_conn">A aguardar conexão...</string>
 </resources>

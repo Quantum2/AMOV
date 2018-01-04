@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.imaginarymakings.chess.Logic.ChessMoves;
 import com.imaginarymakings.chess.Logic.Piece;
@@ -23,6 +24,7 @@ public class ChessActivity extends AppCompatActivity {
 
     GridView gv;
     ImageView overlay;
+    TextView tv;
 
     private int movingPiece;
 
@@ -35,6 +37,7 @@ public class ChessActivity extends AppCompatActivity {
 
         overlay = findViewById(R.id.dragImage);
         gv = findViewById(R.id.chessGrid);
+        tv = findViewById(R.id.editText);
         final SpaceAdapter adapter = new SpaceAdapter(this);
 
         Bundle extras = getIntent().getExtras();
@@ -102,7 +105,10 @@ public class ChessActivity extends AppCompatActivity {
     private BroadcastReceiver playerReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            nm.startServer();
 
+            tv.setText(String.format(getString(R.string.your_ip), nm.getCurrentIP()));
+            tv.setText(String.format("%s\n%s", tv.getText(), getString(R.string.waiting_conn)));
         }
     };
 }
