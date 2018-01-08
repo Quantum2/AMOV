@@ -1,8 +1,10 @@
 package com.imaginarymakings.chess.Logic;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -247,6 +249,9 @@ public class SpaceAdapter extends BaseAdapter {
             pieces = gm.piecesMoved;
 
             currentTurn = gm.turn;
+
+            Intent intent = new Intent("refresh");
+            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         }
     }
 }
