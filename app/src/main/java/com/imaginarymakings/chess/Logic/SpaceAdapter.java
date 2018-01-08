@@ -24,10 +24,12 @@ public class SpaceAdapter extends BaseAdapter {
 
     public Player whoAmI = Player.WHITE;
     public Player currentPlayer;
+    public int currentTurn;
 
     public SpaceAdapter(Context c) {
         context = c;
         currentId = 0;
+        currentTurn = 0;
 
         setupBoard();
     }
@@ -226,6 +228,25 @@ public class SpaceAdapter extends BaseAdapter {
                 break;
             case EMPTY:
                 break;
+        }
+    }
+
+    public GameInfo getGameInfo(){
+        GameInfo gm = new GameInfo();
+
+        gm.currentPlayer = currentPlayer;
+        gm.turn = currentTurn;
+        gm.piecesMoved = pieces;
+
+        return gm;
+    }
+
+    public void setGameInfo(GameInfo gm){
+        if (gm.turn > currentTurn){
+            currentPlayer = gm.currentPlayer;
+            pieces = gm.piecesMoved;
+
+            currentTurn = gm.turn;
         }
     }
 }

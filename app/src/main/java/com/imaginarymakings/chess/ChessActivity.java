@@ -83,6 +83,13 @@ public class ChessActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        nm.endGame();
+
+        super.onBackPressed();
+    }
+
     protected void setupMP() {
         LocalBroadcastManager.getInstance(this).registerReceiver(aiReceiver,
                 new IntentFilter("ai"));
@@ -93,7 +100,7 @@ public class ChessActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(clientReceived,
                 new IntentFilter("client"));
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(onRefresh,
+        LocalBroadcastManager.getInstance(this).registerReceiver(refreshReceived,
                 new IntentFilter("refresh"));
 
         nm = new NetworkManager(this, (SpaceAdapter) gv.getAdapter());
@@ -130,12 +137,10 @@ public class ChessActivity extends AppCompatActivity {
         }
     };
 
-    private BroadcastReceiver onRefresh = new BroadcastReceiver() {
+    private BroadcastReceiver refreshReceived = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            SpaceAdapter adapter = (SpaceAdapter) gv.getAdapter();
-
-            adapter.notifyDataSetChanged();
+            ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
         }
     };
 }

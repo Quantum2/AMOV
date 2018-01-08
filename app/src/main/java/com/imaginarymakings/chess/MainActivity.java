@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.imaginarymakings.chess.Utils.Utils;
 
@@ -47,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
                     Snackbar mySnackbar = Snackbar.make(view, R.string.no_connection, Snackbar.LENGTH_LONG);
                     mySnackbar.show();
                 }
+            }
+        });
+
+        ImageView iv = findViewById(R.id.profilePic);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

@@ -6,7 +6,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.imaginarymakings.chess.Logic.Piece;
+import com.imaginarymakings.chess.Logic.GameInfo;
 import com.imaginarymakings.chess.Logic.Player;
 import com.imaginarymakings.chess.Logic.SpaceAdapter;
 
@@ -55,8 +55,10 @@ public class NetworkManager {
                     ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
 
                     while (!end){
-                        adapter.pieces = (Piece[]) is.readObject();
-                        os.writeObject(adapter.pieces);
+                        GameInfo gm = (GameInfo) is.readObject();
+                        adapter.setGameInfo(gm);
+
+                        os.writeObject(adapter.getGameInfo());
 
                         Intent intent = new Intent("refresh");
                         LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
@@ -90,9 +92,10 @@ public class NetworkManager {
 
                     while (!end){
                         try {
-                            os.writeObject(adapter.pieces);
-                            Thread.sleep(100);
-                            adapter.pieces = (Piece[]) is.readObject();
+                            os.writeObject(adapter.getGameInfo());
+
+                            GameInfo gm = (GameInfo) is.readObject();
+                            adapter.setGameInfo(gm);
 
                             Intent intent = new Intent("refresh");
                             LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
@@ -103,7 +106,7 @@ public class NetworkManager {
 
                     os.close();
                     s.close();
-                } catch (IOException | InterruptedException | ClassNotFoundException e) {
+                } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
 
                     Intent intent = new Intent(c, MainActivity.class);
