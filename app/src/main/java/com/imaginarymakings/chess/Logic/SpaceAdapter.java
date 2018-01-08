@@ -1,8 +1,8 @@
 package com.imaginarymakings.chess.Logic;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.imaginarymakings.chess.R;
-import com.imaginarymakings.chess.Utils.Utils;
 
 /**
  * Created by rafaelfrancisco on 27/12/17.
@@ -22,6 +21,9 @@ public class SpaceAdapter extends BaseAdapter {
 
     private int currentId;
     public Piece[] pieces = new Piece[64];
+
+    public Player whoAmI = Player.WHITE;
+    public Player currentPlayer;
 
     public SpaceAdapter(Context c) {
         context = c;
@@ -105,84 +107,122 @@ public class SpaceAdapter extends BaseAdapter {
         pieces[61] = Piece.BISHOP_BLACK;
         pieces[62] = Piece.KNIGHT_BLACK;
         pieces[63] = Piece.ROOK_BLACK;
+
+        currentPlayer = Player.WHITE;
     }
 
     private void getPieceDone(ImageView view, int position) {
-        Bitmap bitmap = Utils.drawableToBitmap(view.getDrawable());
-        Bitmap newBitmap;
+        Drawable[] layers;
+        LayerDrawable ld;
 
         switch (pieces[position]){
             case PAWN_WHITE:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_pdt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_pdt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case PAWN_BLACK:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_plt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_plt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case ROOK_WHITE:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_rdt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_rdt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case ROOK_BLACK:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_rlt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_rlt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case QUEEN_WHITE:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_qdt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_qdt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case QUEEN_BLACK:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_qlt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_qlt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case KING_WHITE:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_kdt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_kdt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case KING_BLACK:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_klt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_klt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case KNIGHT_WHITE:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_ndt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_ndt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case KNIGHT_BLACK:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_nlt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_nlt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case BISHOP_WHITE:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_bdt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_bdt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case BISHOP_BLACK:
-                newBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.chess_blt60);
-                bitmap = Utils.overlay(bitmap, newBitmap);
+                layers = new Drawable[]{
+                        view.getDrawable(),
+                        context.getResources().getDrawable(R.drawable.chess_blt60)
+                };
 
-                view.setImageBitmap(bitmap);
+                ld = new LayerDrawable(layers);
+                view.setImageDrawable(ld);
                 break;
             case EMPTY:
                 break;

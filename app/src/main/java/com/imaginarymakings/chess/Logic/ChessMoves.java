@@ -5,8 +5,8 @@ package com.imaginarymakings.chess.Logic;
  */
 
 public class ChessMoves {
-    public static void movePiece(int piece, int postitionTo, Piece[] pieces){
-        Piece temp = pieces[piece];
+    public static void movePiece(int piece, int postitionTo, SpaceAdapter adapter){
+        Piece temp = adapter.pieces[piece];
 
         switch (temp){
             case PAWN_WHITE:
@@ -37,7 +37,12 @@ public class ChessMoves {
                 break;
         }
 
-        pieces[piece] = Piece.EMPTY;
-        pieces[postitionTo] = temp;
+        adapter.pieces[piece] = Piece.EMPTY;
+        adapter.pieces[postitionTo] = temp;
+
+        if (adapter.currentPlayer == Player.WHITE)
+            adapter.currentPlayer = Player.BLACK;
+        else
+            adapter.currentPlayer = Player.WHITE;
     }
 }

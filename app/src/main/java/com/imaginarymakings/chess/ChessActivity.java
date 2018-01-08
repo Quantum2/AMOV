@@ -13,7 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.imaginarymakings.chess.Dialogs.ConnectDialog;
+import com.imaginarymakings.chess.Dialogs.ChooseDialog;
 import com.imaginarymakings.chess.Logic.ChessMoves;
 import com.imaginarymakings.chess.Logic.Piece;
 import com.imaginarymakings.chess.Logic.SpaceAdapter;
@@ -40,11 +40,6 @@ public class ChessActivity extends AppCompatActivity {
         gv = findViewById(R.id.chessGrid);
         tv = findViewById(R.id.editText);
         final SpaceAdapter adapter = new SpaceAdapter(this);
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null && extras.getBoolean("mp")){
-            setupMP();
-        }
 
         gv.setAdapter(adapter);
         gv.setOnTouchListener(new View.OnTouchListener() {
@@ -73,7 +68,7 @@ public class ChessActivity extends AppCompatActivity {
                     overlay.setVisibility(View.INVISIBLE);
 
                     if (position != -1){
-                        ChessMoves.movePiece(movingPiece, position, adapter.pieces);
+                        ChessMoves.movePiece(movingPiece, position, adapter);
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -81,6 +76,11 @@ public class ChessActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null && extras.getBoolean("mp")){
+            setupMP();
+        }
     }
 
     protected void setupMP() {
@@ -96,9 +96,9 @@ public class ChessActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(onRefresh,
                 new IntentFilter("refresh"));
 
-        nm = new NetworkManager(this);
+        nm = new NetworkManager(this, (SpaceAdapter) gv.getAdapter());
 
-        ConnectDialog dialog = new ConnectDialog(this);
+        ChooseDialog dialog = new ChooseDialog(this);
         dialog.show(getFragmentManager(), "Chess activity");
     }
 
@@ -135,7 +135,6 @@ public class ChessActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             SpaceAdapter adapter = (SpaceAdapter) gv.getAdapter();
 
-            adapter.pieces = nm.getPieces();
             adapter.notifyDataSetChanged();
         }
     };
