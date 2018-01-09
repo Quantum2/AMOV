@@ -239,7 +239,9 @@ public class ChessMoves {
         int columnTo = getWhichColumn(posTo);
 
         if (line == lineTo){
+            if (posTo - pos > 0){
 
+            }
         } else if (columnTo == column){
 
         }
