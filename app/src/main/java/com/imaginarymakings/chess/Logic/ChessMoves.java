@@ -26,11 +26,20 @@ public class ChessMoves {
 
                         break;
                     case PAWN_BLACK:
+                        if (!canPawnMoveBlack(piece, postitionTo, adapter.pieces) || getWhichLine(postitionTo) != (currentLine + 1)){
+                            return false;
+                        }
 
                         break;
                     case ROOK_WHITE:
+                        if (!canRookMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case ROOK_BLACK:
+                        if (!canRookMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case QUEEN_WHITE:
                         break;
@@ -50,6 +59,15 @@ public class ChessMoves {
                         break;
                     case EMPTY:
                         return false;
+                }
+
+                if (adapter.pieces[postitionTo] != Piece.EMPTY){
+                    //Eats
+                    if (adapter.currentPlayer == Player.WHITE){
+                        adapter.eatenWHITE.add(adapter.pieces[postitionTo]);
+                    } else {
+                        adapter.eatenBLACK.add(adapter.pieces[postitionTo]);
+                    }
                 }
 
                 adapter.pieces[piece] = Piece.EMPTY;
@@ -198,5 +216,34 @@ public class ChessMoves {
         }
 
         return (pieces[posTo] == Piece.EMPTY && (pos - posTo) == 8);
+    }
+
+    private static boolean canPawnMoveBlack(int pos, int posTo, Piece[] pieces){
+        int difs = Math.abs(pos - posTo);
+
+        if (pieces[pos + 7] != Piece.EMPTY && difs == 7 && oppositeColor(pieces[pos], pieces[pos + 7])){
+            return true;
+        }
+        if (pieces[pos + 9] != Piece.EMPTY && difs == 9 && oppositeColor(pieces[pos], pieces[pos + 9])){
+            return true;
+        }
+
+        return (pieces[posTo] == Piece.EMPTY && (posTo - pos) == 8);
+    }
+
+    private static boolean canRookMove(int pos, int posTo, Piece[] pieces){
+        int line = getWhichLine(pos);
+        int column = getWhichColumn(pos);
+
+        int lineTo = getWhichLine(posTo);
+        int columnTo = getWhichColumn(posTo);
+
+        if (line == lineTo){
+
+        } else if (columnTo == column){
+
+        }
+
+        return true;
     }
 }
