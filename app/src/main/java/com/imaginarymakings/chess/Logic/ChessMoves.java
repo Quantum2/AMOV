@@ -50,8 +50,14 @@ public class ChessMoves {
                     case KING_BLACK:
                         break;
                     case KNIGHT_WHITE:
+                        if (!canKnightMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case KNIGHT_BLACK:
+                        if (!canKnightMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case BISHOP_WHITE:
                         break;
@@ -143,30 +149,6 @@ public class ChessMoves {
         for (int i = 0; i < temp.length; i++){
             temp[i] = column;
             column = column + 8;
-        }
-
-        return temp;
-    }
-
-    static int[] getDiagonalOfEightRight(int line){
-        int[] temp = new int[8];
-        int startingNumber = line * 8;
-
-        for (int i = 0; i < temp.length; i++){
-            temp[i] = startingNumber;
-            startingNumber++;
-        }
-
-        return temp;
-    }
-
-    static int[] getDiagonalOfEightLeft(int line){
-        int[] temp = new int[8];
-        int startingNumber = line * 8;
-
-        for (int i = 0; i < temp.length; i++){
-            temp[i] = startingNumber;
-            startingNumber++;
         }
 
         return temp;
@@ -292,6 +274,30 @@ public class ChessMoves {
 
                 return pieces[pos] == Piece.EMPTY || oppositeColor(orignalPiece, pieces[pos]);
             }
+        }
+
+        return false;
+    }
+
+    private static boolean canBishopMove(int pos, int posTo, Piece[] pieces){
+
+
+        return false;
+    }
+
+    private static boolean canKnightMove(int pos, int posTo, Piece[] pieces){
+        if (posTo == (pos + 6) || posTo == (pos + 15) || posTo == (pos - 6) || posTo == (pos - 15)){
+            if (pieces[posTo] == Piece.EMPTY)
+                return true;
+            else
+                return oppositeColor(pieces[pos], pieces[posTo]);
+        }
+
+        if (posTo == (pos + 17) || posTo == (pos + 10) || posTo == (pos - 17) || posTo == (pos - 10)){
+            if (pieces[posTo] == Piece.EMPTY)
+                return true;
+            else
+                return oppositeColor(pieces[pos], pieces[posTo]);
         }
 
         return false;

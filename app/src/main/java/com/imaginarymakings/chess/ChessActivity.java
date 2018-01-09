@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.imaginarymakings.chess.Dialogs.ChooseDialog;
@@ -77,6 +78,8 @@ public class ChessActivity extends AppCompatActivity {
 
                             if (nm == null)
                                 doAIMove();
+
+                            checkForGameLost();
                         }
                     }
                 }
@@ -138,9 +141,6 @@ public class ChessActivity extends AppCompatActivity {
     }
 
     protected void setupMP() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(aiReceiver,
-                new IntentFilter("ai"));
-
         LocalBroadcastManager.getInstance(this).registerReceiver(serverReceived,
                 new IntentFilter("server"));
 
@@ -152,13 +152,6 @@ public class ChessActivity extends AppCompatActivity {
         ChooseDialog dialog = new ChooseDialog(this);
         dialog.show(getFragmentManager(), "Chess activity");
     }
-
-    private BroadcastReceiver aiReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-        }
-    };
 
     private BroadcastReceiver serverReceived = new BroadcastReceiver() {
         @Override
@@ -185,6 +178,7 @@ public class ChessActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
+            checkForGameLost();
         }
     };
 
@@ -206,5 +200,25 @@ public class ChessActivity extends AppCompatActivity {
         }while (!done);
 
         Log.d(TAG, "AI moved piece");
+    }
+
+    private void checkForGameLost(){
+        SpaceAdapter adapter = (SpaceAdapter) gv.getAdapter();
+        boolean kingBlack = false, kingWhite = false;
+
+        for (int i = 0; i < adapter.pieces.length; i++){
+            if (adapter.pieces[i] == Piece.KING_WHITE)
+                kingWhite = true;
+
+            if (adapter.pieces[i] == Piece.KING_BLACK)
+                kingBlack = true;
+        }
+
+        if (!kingBlack && !kingWhite){
+            //Game finished
+            gv.setEnabled(false);
+
+            Toast.makeText(this, "Game ended", Toast.LENGTH_LONG).show();
+        }
     }
 }
