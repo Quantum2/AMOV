@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.imaginarymakings.chess.Logic.Piece;
 import com.imaginarymakings.chess.R;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,40 +21,40 @@ public class Utils {
     public static void setFloatable (Piece p, ImageView iv){
         switch (p){
             case PAWN_WHITE:
-                iv.setImageResource(R.drawable.chess_pdt60);
-                break;
-            case PAWN_BLACK:
                 iv.setImageResource(R.drawable.chess_plt60);
                 break;
-            case ROOK_WHITE:
-                iv.setImageResource(R.drawable.chess_rdt60);
+            case PAWN_BLACK:
+                iv.setImageResource(R.drawable.chess_pdt60);
                 break;
-            case ROOK_BLACK:
+            case ROOK_WHITE:
                 iv.setImageResource(R.drawable.chess_rlt60);
                 break;
-            case QUEEN_WHITE:
-                iv.setImageResource(R.drawable.chess_qdt60);
+            case ROOK_BLACK:
+                iv.setImageResource(R.drawable.chess_rdt60);
                 break;
-            case QUEEN_BLACK:
+            case QUEEN_WHITE:
                 iv.setImageResource(R.drawable.chess_qlt60);
                 break;
-            case KING_WHITE:
-                iv.setImageResource(R.drawable.chess_kdt60);
+            case QUEEN_BLACK:
+                iv.setImageResource(R.drawable.chess_qdt60);
                 break;
-            case KING_BLACK:
+            case KING_WHITE:
                 iv.setImageResource(R.drawable.chess_klt60);
                 break;
-            case KNIGHT_WHITE:
-                iv.setImageResource(R.drawable.chess_ndt60);
+            case KING_BLACK:
+                iv.setImageResource(R.drawable.chess_kdt60);
                 break;
-            case KNIGHT_BLACK:
+            case KNIGHT_WHITE:
                 iv.setImageResource(R.drawable.chess_nlt60);
                 break;
+            case KNIGHT_BLACK:
+                iv.setImageResource(R.drawable.chess_ndt60);
+                break;
             case BISHOP_WHITE:
-                iv.setImageResource(R.drawable.chess_bdt60);
+                iv.setImageResource(R.drawable.chess_blt60);
                 break;
             case BISHOP_BLACK:
-                iv.setImageResource(R.drawable.chess_blt60);
+                iv.setImageResource(R.drawable.chess_bdt60);
                 break;
             case EMPTY:
                 break;
@@ -87,5 +88,25 @@ public class Utils {
         } else {
             return false;
         }
+    }
+
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
+    }
+
+    public static boolean isIntInArray(int[] array, int number){
+        for (int anArray : array) {
+            if (number == anArray) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
