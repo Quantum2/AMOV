@@ -72,9 +72,12 @@ public class ChessActivity extends AppCompatActivity {
                     overlay.setVisibility(View.INVISIBLE);
 
                     if (position != -1){
-                        if (ChessMoves.movePiece(movingPiece, position, ((SpaceAdapter) gv.getAdapter()), false) && nm == null)
+                        if (ChessMoves.movePiece(movingPiece, position, ((SpaceAdapter) gv.getAdapter()), false)){
                             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
-                            doAIMove();
+
+                            if (nm == null)
+                                doAIMove();
+                        }
                     }
                 }
 

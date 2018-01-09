@@ -9,6 +9,9 @@ import static com.imaginarymakings.chess.Utils.Utils.isIntInArray;
 public class ChessMoves {
 
     public static boolean movePiece(int piece, int postitionTo, SpaceAdapter adapter, boolean isAI){
+        if (piece == postitionTo)
+            return false;
+
         if (adapter.whoAmI == adapter.currentPlayer || isAI){
             Piece temp = adapter.pieces[piece];
 
@@ -17,12 +20,13 @@ public class ChessMoves {
 
                 switch (temp){
                     case PAWN_WHITE:
-                        if (getWhichLine(postitionTo) != (currentLine - 1))
+                        if (!canPawnMoveWhite(piece, postitionTo, adapter.pieces) || getWhichLine(postitionTo) != (currentLine - 1)){
                             return false;
+                        }
+
                         break;
                     case PAWN_BLACK:
-                        if (getWhichLine(postitionTo) != (currentLine + 1))
-                            return false;
+
                         break;
                     case ROOK_WHITE:
                         break;
@@ -65,7 +69,7 @@ public class ChessMoves {
         return false;
     }
 
-    static boolean isColor(Player player, Piece piece){
+    private static boolean isColor(Player player, Piece piece){
         if (Player.WHITE == player){
             switch (piece){
                 case PAWN_WHITE:
@@ -103,7 +107,7 @@ public class ChessMoves {
         }
     }
 
-    static int[] getLineOfEight(int line){
+    private static int[] getLineOfEight(int line){
         int[] temp = new int[8];
         int startingNumber = line * 8;
 
@@ -115,7 +119,7 @@ public class ChessMoves {
         return temp;
     }
 
-    static int[] getColumnOfEight(int column){
+    private static int[] getColumnOfEight(int column){
         int[] temp = new int[8];
 
         for (int i = 0; i < temp.length; i++){
@@ -150,7 +154,7 @@ public class ChessMoves {
         return temp;
     }
 
-    static int getWhichLine(int pos){
+    private static int getWhichLine(int pos){
         int counter = 0;
 
         for (int i = 0; i < 8; i++){
@@ -176,5 +180,23 @@ public class ChessMoves {
         }
 
         return counter;
+    }
+
+    private static boolean oppositeColor(Piece piece, Piece otherPiece) {
+        return piece.name().contains("WHITE") && otherPiece.name().contains("BLACK") || piece.name().contains("BLACK") && otherPiece.name().contains("WHITE");
+
+    }
+
+    private static boolean canPawnMoveWhite(int pos, int posTo, Piece[] pieces){
+        int difs = Math.abs(pos - posTo);
+
+        if (pieces[pos - 7] != Piece.EMPTY && difs == 7 && oppositeColor(pieces[pos], pieces[pos - 7])){
+            return true;
+        }
+        if (pieces[pos - 9] != Piece.EMPTY && difs == 9 && oppositeColor(pieces[pos], pieces[pos - 9])){
+            return true;
+        }
+
+        return (pieces[posTo] == Piece.EMPTY && (pos - posTo) == 8);
     }
 }
