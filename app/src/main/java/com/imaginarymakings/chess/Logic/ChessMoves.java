@@ -186,7 +186,7 @@ public class ChessMoves {
         return counter;
     }
 
-    static int getWhichColumn(int pos){
+    private static int getWhichColumn(int pos){
         int counter = 0;
 
         for (int i = 0; i < 8; i++){
@@ -238,14 +238,38 @@ public class ChessMoves {
         int lineTo = getWhichLine(posTo);
         int columnTo = getWhichColumn(posTo);
 
-        if (line == lineTo){
-            if (posTo - pos > 0){
+        Piece orignalPiece = pieces[pos];
 
+        if (columnTo == column){
+            if (posTo - pos > 0) {
+                pos = pos + 8;
+
+                while (pos >= 0 && pos <= 63 && pos != posTo) {
+                    if (pieces[pos] == Piece.EMPTY) {
+                        pos = pos + 8;
+                    } else {
+                        return false;
+                    }
+                }
+
+                return pieces[pos] == Piece.EMPTY || oppositeColor(orignalPiece, pieces[pos]);
+            } else {
+                pos = pos - 8;
+
+                while (pos >= 0 && pos <= 63 && pos != posTo){
+                    if (pieces[pos] == Piece.EMPTY){
+                        pos = pos - 8;
+                    } else {
+                        return false;
+                    }
+                }
+
+                return pieces[pos] == Piece.EMPTY || oppositeColor(orignalPiece, pieces[pos]);
             }
-        } else if (columnTo == column){
+        } else if (line == lineTo){
 
         }
 
-        return true;
+        return false;
     }
 }

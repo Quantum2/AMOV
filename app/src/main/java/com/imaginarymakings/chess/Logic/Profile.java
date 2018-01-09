@@ -16,7 +16,6 @@ import java.io.Serializable;
 
 public class Profile implements Serializable {
     public String name;
-
     public String photo;
 
     public int wonGames;

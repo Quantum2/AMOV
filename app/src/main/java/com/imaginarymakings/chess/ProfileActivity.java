@@ -7,18 +7,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.imaginarymakings.chess.Logic.Profile;
+import com.imaginarymakings.chess.Utils.Utils;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
     Profile playerProfile;
-
     ImageView iv;
 
     @Override
@@ -26,6 +28,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        EditText ed = findViewById(R.id.editName);
         iv = findViewById(R.id.editPhoto);
         playerProfile = Profile.getLoadedProfile(this);
 
@@ -34,12 +37,11 @@ public class ProfileActivity extends AppCompatActivity {
             playerProfile.saveProfileToSharedPreferences(this);
         } else {
             if (playerProfile.name != null){
-                EditText ed = findViewById(R.id.editName);
                 ed.setText(playerProfile.name);
             }
 
             if (playerProfile.photo != null){
-                iv.setImageDrawable(playerProfile.photo);
+                iv.setImageBitmap(Utils.convert(playerProfile.photo));
             }
         }
 
@@ -51,12 +53,31 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+        ed.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0){
+                    playerProfile.name = charSequence.toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         playerProfile.saveProfileToSharedPreferences(this);
-        super.onStop();
+        super.onPause();
     }
 
     private void dispatchTakePictureIntent() {
@@ -73,7 +94,7 @@ public class ProfileActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
 
             iv.setImageBitmap(imageBitmap);
-            playerProfile.photo = new BitmapDrawable(getResources(), imageBitmap);
+            playerProfile.photo = Utils.convert(imageBitmap);
             playerProfile.saveProfileToSharedPreferences(this);
         }
     }
