@@ -13,6 +13,8 @@ import android.widget.ImageView;
 
 import com.imaginarymakings.chess.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by rafaelfrancisco on 27/12/17.
  */
@@ -28,10 +30,16 @@ public class SpaceAdapter extends BaseAdapter {
     public Player currentPlayer;
     public int currentTurn;
 
+    public ArrayList<Piece> eatenWHITE;
+    public ArrayList<Piece> eatenBLACK;
+
     public SpaceAdapter(Context c) {
         context = c;
         currentId = 0;
         currentTurn = 0;
+
+        eatenWHITE = new ArrayList<>();
+        eatenBLACK = new ArrayList<>();
 
         setupBoard();
     }
@@ -87,30 +95,30 @@ public class SpaceAdapter extends BaseAdapter {
         }
 
         for (int i = 8; i < 16; i++){
-            pieces[i] = Piece.PAWN_WHITE;
-        }
-
-        for (int i = 48; i < 56; i++){
             pieces[i] = Piece.PAWN_BLACK;
         }
 
-        pieces[0] = Piece.ROOK_WHITE;
-        pieces[1] = Piece.KNIGHT_WHITE;
-        pieces[2] = Piece.BISHOP_WHITE;
-        pieces[3] = Piece.QUEEN_WHITE;
-        pieces[4] = Piece.KING_WHITE;
-        pieces[5] = Piece.BISHOP_WHITE;
-        pieces[6] = Piece.KNIGHT_WHITE;
-        pieces[7] = Piece.ROOK_WHITE;
+        for (int i = 48; i < 56; i++){
+            pieces[i] = Piece.PAWN_WHITE;
+        }
 
-        pieces[56] = Piece.ROOK_BLACK;
-        pieces[57] = Piece.KNIGHT_BLACK;
-        pieces[58] = Piece.BISHOP_BLACK;
-        pieces[59] = Piece.QUEEN_BLACK;
-        pieces[60] = Piece.KING_BLACK;
-        pieces[61] = Piece.BISHOP_BLACK;
-        pieces[62] = Piece.KNIGHT_BLACK;
-        pieces[63] = Piece.ROOK_BLACK;
+        pieces[0] = Piece.ROOK_BLACK;
+        pieces[1] = Piece.KNIGHT_BLACK;
+        pieces[2] = Piece.BISHOP_BLACK;
+        pieces[3] = Piece.QUEEN_BLACK;
+        pieces[4] = Piece.KING_BLACK;
+        pieces[5] = Piece.BISHOP_BLACK;
+        pieces[6] = Piece.KNIGHT_BLACK;
+        pieces[7] = Piece.ROOK_BLACK;
+
+        pieces[56] = Piece.ROOK_WHITE;
+        pieces[57] = Piece.KNIGHT_WHITE;
+        pieces[58] = Piece.BISHOP_WHITE;
+        pieces[59] = Piece.QUEEN_WHITE;
+        pieces[60] = Piece.KING_WHITE;
+        pieces[61] = Piece.BISHOP_WHITE;
+        pieces[62] = Piece.KNIGHT_WHITE;
+        pieces[63] = Piece.ROOK_WHITE;
 
         currentPlayer = Player.WHITE;
     }
@@ -123,7 +131,7 @@ public class SpaceAdapter extends BaseAdapter {
             case PAWN_WHITE:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_pdt60)
+                        context.getResources().getDrawable(R.drawable.chess_plt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -132,7 +140,7 @@ public class SpaceAdapter extends BaseAdapter {
             case PAWN_BLACK:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_plt60)
+                        context.getResources().getDrawable(R.drawable.chess_pdt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -141,7 +149,7 @@ public class SpaceAdapter extends BaseAdapter {
             case ROOK_WHITE:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_rdt60)
+                        context.getResources().getDrawable(R.drawable.chess_rlt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -150,7 +158,7 @@ public class SpaceAdapter extends BaseAdapter {
             case ROOK_BLACK:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_rlt60)
+                        context.getResources().getDrawable(R.drawable.chess_rdt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -159,7 +167,7 @@ public class SpaceAdapter extends BaseAdapter {
             case QUEEN_WHITE:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_qdt60)
+                        context.getResources().getDrawable(R.drawable.chess_qlt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -168,7 +176,7 @@ public class SpaceAdapter extends BaseAdapter {
             case QUEEN_BLACK:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_qlt60)
+                        context.getResources().getDrawable(R.drawable.chess_qdt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -177,7 +185,7 @@ public class SpaceAdapter extends BaseAdapter {
             case KING_WHITE:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_kdt60)
+                        context.getResources().getDrawable(R.drawable.chess_klt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -186,7 +194,7 @@ public class SpaceAdapter extends BaseAdapter {
             case KING_BLACK:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_klt60)
+                        context.getResources().getDrawable(R.drawable.chess_kdt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -195,7 +203,7 @@ public class SpaceAdapter extends BaseAdapter {
             case KNIGHT_WHITE:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_ndt60)
+                        context.getResources().getDrawable(R.drawable.chess_nlt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -204,7 +212,7 @@ public class SpaceAdapter extends BaseAdapter {
             case KNIGHT_BLACK:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_nlt60)
+                        context.getResources().getDrawable(R.drawable.chess_ndt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -213,7 +221,7 @@ public class SpaceAdapter extends BaseAdapter {
             case BISHOP_WHITE:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_bdt60)
+                        context.getResources().getDrawable(R.drawable.chess_blt60)
                 };
 
                 ld = new LayerDrawable(layers);
@@ -222,7 +230,7 @@ public class SpaceAdapter extends BaseAdapter {
             case BISHOP_BLACK:
                 layers = new Drawable[]{
                         view.getDrawable(),
-                        context.getResources().getDrawable(R.drawable.chess_blt60)
+                        context.getResources().getDrawable(R.drawable.chess_bdt60)
                 };
 
                 ld = new LayerDrawable(layers);

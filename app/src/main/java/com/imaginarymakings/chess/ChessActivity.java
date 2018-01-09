@@ -4,17 +4,22 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.imaginarymakings.chess.Dialogs.ChooseDialog;
 import com.imaginarymakings.chess.Logic.ChessMoves;
+import com.imaginarymakings.chess.Logic.GameInfo;
 import com.imaginarymakings.chess.Logic.Piece;
 import com.imaginarymakings.chess.Logic.SpaceAdapter;
 import com.imaginarymakings.chess.Utils.Utils;
@@ -39,9 +44,8 @@ public class ChessActivity extends AppCompatActivity {
         overlay = findViewById(R.id.dragImage);
         gv = findViewById(R.id.chessGrid);
         tv = findViewById(R.id.editText);
-        final SpaceAdapter adapter = new SpaceAdapter(this);
 
-        gv.setAdapter(adapter);
+        gv.setAdapter(new SpaceAdapter(this));
         gv.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -50,12 +54,12 @@ public class ChessActivity extends AppCompatActivity {
                 float currentYPosition = motionEvent.getY();
 
                 int position = gv.pointToPosition((int) currentXPosition, (int) currentYPosition);
-                if (action == MotionEvent.ACTION_DOWN && position != -1 && adapter.pieces[position] != Piece.EMPTY) {
+                if (action == MotionEvent.ACTION_DOWN && position != -1 && ((SpaceAdapter) gv.getAdapter()).pieces[position] != Piece.EMPTY) {
                     overlay.setX(currentXPosition);
                     overlay.setY(currentYPosition);
 
                     movingPiece = position;
-                    Utils.setFloatable(adapter.pieces[position], overlay);
+                    Utils.setFloatable(((SpaceAdapter) gv.getAdapter()).pieces[position], overlay);
                     overlay.setVisibility(View.VISIBLE);
                 }
 
@@ -68,14 +72,42 @@ public class ChessActivity extends AppCompatActivity {
                     overlay.setVisibility(View.INVISIBLE);
 
                     if (position != -1){
-                        ChessMoves.movePiece(movingPiece, position, adapter);
-                        adapter.notifyDataSetChanged();
+                        ChessMoves.movePiece(movingPiece, position, ((SpaceAdapter) gv.getAdapter()), false);
+                        ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
+
+                        if (nm == null)
+                            doAIMove();
                     }
                 }
 
                 return true;
             }
         });
+
+        final SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        final Context c = this;
+
+        Button reset = findViewById(R.id.deleteGame);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gv.setAdapter(new SpaceAdapter(c));
+
+                SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                prefsEditor.remove("game");
+                prefsEditor.apply();
+            }
+        });
+
+        Gson gson = new Gson();
+        String json = mPrefs.getString("game", "");
+        GameInfo obj = gson.fromJson(json, GameInfo.class);
+
+        if (obj != null)
+            ((SpaceAdapter) gv.getAdapter()).setGameInfo(obj);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(refreshReceived,
+                new IntentFilter("refresh"));
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.getBoolean("mp")){
@@ -85,9 +117,23 @@ public class ChessActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        nm.endGame();
+        if (nm != null)
+            nm.endGame();
 
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onStop() {
+        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(((SpaceAdapter) gv.getAdapter()).getGameInfo());
+        prefsEditor.putString("game", json);
+        prefsEditor.apply();
+
+        super.onStop();
     }
 
     protected void setupMP() {
@@ -99,9 +145,6 @@ public class ChessActivity extends AppCompatActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(clientReceived,
                 new IntentFilter("client"));
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(refreshReceived,
-                new IntentFilter("refresh"));
 
         nm = new NetworkManager(this, (SpaceAdapter) gv.getAdapter());
 
@@ -143,4 +186,21 @@ public class ChessActivity extends AppCompatActivity {
             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
         }
     };
+
+    private void doAIMove(){
+        boolean done;
+        SpaceAdapter adapter = (SpaceAdapter) gv.getAdapter();
+        int piece, positionTo;
+
+        do {
+            piece = Utils.randInt(0, 63);
+            do {
+                positionTo = Utils.randInt(0 ,63);
+            }while (positionTo == piece);
+
+            done = ChessMoves.movePiece(piece, positionTo, adapter, true);
+        }while (!done);
+
+        Log.d(TAG, "AI moved piece");
+    }
 }
