@@ -267,7 +267,31 @@ public class ChessMoves {
                 return pieces[pos] == Piece.EMPTY || oppositeColor(orignalPiece, pieces[pos]);
             }
         } else if (line == lineTo){
+            if (posTo - pos > 0) {
+                pos = pos + 1;
 
+                while (pos >= 0 && pos <= 63 && pos != posTo) {
+                    if (pieces[pos] == Piece.EMPTY) {
+                        pos = pos + 1;
+                    } else {
+                        return false;
+                    }
+                }
+
+                return pieces[pos] == Piece.EMPTY || oppositeColor(orignalPiece, pieces[pos]);
+            } else {
+                pos = pos - 1;
+
+                while (pos >= 0 && pos <= 63 && pos != posTo){
+                    if (pieces[pos] == Piece.EMPTY){
+                        pos = pos - 1;
+                    } else {
+                        return false;
+                    }
+                }
+
+                return pieces[pos] == Piece.EMPTY || oppositeColor(orignalPiece, pieces[pos]);
+            }
         }
 
         return false;
