@@ -15,4 +15,5 @@
     <string name="choose_ip">Introduza o endereço IP do servidor</string>
     <string name="confirm_ip">Confirmar</string>
     <string name="invalid_ip">Endereço IP inválido</string>
+    <string name="name_hint_profile">Nome</string>
 </resources>

@@ -11,8 +11,7 @@
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/chess_background"/>
+        android:scaleType="centerCrop" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,13 +47,13 @@
 
         <ImageView
             android:id="@+id/profilePic"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/picture_frame"/>
+            app:srcCompat="@drawable/ic_account_circle_black_24dp" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

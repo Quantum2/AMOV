@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.imaginarymakings.chess.Logic.Profile;
 import com.imaginarymakings.chess.Utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,7 +56,17 @@ public class MainActivity extends AppCompatActivity {
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        iv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Profile.deleteProfile(context);
+
+                return true;
             }
         });
     }
