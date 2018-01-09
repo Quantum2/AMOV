@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import com.imaginarymakings.chess.Logic.Piece;
 import com.imaginarymakings.chess.R;
 
-import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -92,7 +91,7 @@ public class Utils {
     }
 
     public static int randInt(int min, int max) {
-        Random rand = new Random(new Date().getTime());
+        Random rand = new Random();
 
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive

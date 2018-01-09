@@ -45,7 +45,7 @@ public class ChessMoves {
                     case BISHOP_BLACK:
                         break;
                     case EMPTY:
-                        break;
+                        return false;
                 }
 
                 adapter.pieces[piece] = Piece.EMPTY;

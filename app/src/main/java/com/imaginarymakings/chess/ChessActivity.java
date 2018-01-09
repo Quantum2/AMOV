@@ -72,10 +72,8 @@ public class ChessActivity extends AppCompatActivity {
                     overlay.setVisibility(View.INVISIBLE);
 
                     if (position != -1){
-                        ChessMoves.movePiece(movingPiece, position, ((SpaceAdapter) gv.getAdapter()), false);
-                        ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
-
-                        if (nm == null)
+                        if (ChessMoves.movePiece(movingPiece, position, ((SpaceAdapter) gv.getAdapter()), false) && nm == null)
+                            ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
                             doAIMove();
                     }
                 }
@@ -193,9 +191,12 @@ public class ChessActivity extends AppCompatActivity {
         int piece, positionTo;
 
         do {
-            piece = Utils.randInt(0, 63);
             do {
-                positionTo = Utils.randInt(0 ,63);
+                piece = Utils.randInt(0, 63);
+            }while (adapter.pieces[piece] == Piece.EMPTY);
+
+            do {
+                positionTo = Utils.randInt(0, 63);
             }while (positionTo == piece);
 
             done = ChessMoves.movePiece(piece, positionTo, adapter, true);
