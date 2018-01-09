@@ -60,8 +60,14 @@ public class ChessMoves {
                         }
                         break;
                     case BISHOP_WHITE:
+                        if (!canBishopMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case BISHOP_BLACK:
+                        if (!canBishopMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case EMPTY:
                         return false;
@@ -280,7 +286,45 @@ public class ChessMoves {
     }
 
     private static boolean canBishopMove(int pos, int posTo, Piece[] pieces){
+        Piece originalPiece = pieces[pos];
 
+        if (posTo > pos){
+            pos = pos + 7;
+
+            while (pos >= 0 && pos <= 63){
+                if (pieces[pos] == Piece.EMPTY && pos == posTo)
+                    return true;
+                else if (pos == posTo)
+                    return oppositeColor(originalPiece, pieces[posTo]);
+
+                pos = pos + 2;
+
+                if (pieces[pos] == Piece.EMPTY && pos == posTo)
+                    return true;
+                else if (pos == posTo)
+                    return oppositeColor(originalPiece, pieces[posTo]);
+
+                pos = pos + 7;
+            }
+        } else {
+            pos = pos - 7;
+
+            while (pos >= 0 && pos <= 63){
+                if (pieces[pos] == Piece.EMPTY && pos == posTo)
+                    return true;
+                else if (pos == posTo)
+                    return oppositeColor(originalPiece, pieces[posTo]);
+
+                pos = pos - 2;
+
+                if (pieces[pos] == Piece.EMPTY && pos == posTo)
+                    return true;
+                else if (pos == posTo)
+                    return oppositeColor(originalPiece, pieces[posTo]);
+
+                pos = pos - 7;
+            }
+        }
 
         return false;
     }

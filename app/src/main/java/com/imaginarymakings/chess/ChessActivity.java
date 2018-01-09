@@ -100,6 +100,8 @@ public class ChessActivity extends AppCompatActivity {
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 prefsEditor.remove("game");
                 prefsEditor.apply();
+
+                gv.setEnabled(true);
             }
         });
 
