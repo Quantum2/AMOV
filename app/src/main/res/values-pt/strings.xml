@@ -16,4 +16,5 @@
     <string name="confirm_ip">Confirmar</string>
     <string name="invalid_ip">Endereço IP inválido</string>
     <string name="name_hint_profile">Nome</string>
+    <string name="invalid_move">Jogada inválida</string>
 </resources>

@@ -1,5 +1,6 @@
-package com.imaginarymakings.chess;
+package com.imaginarymakings.chess.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,8 @@ import com.imaginarymakings.chess.Logic.ChessMoves;
 import com.imaginarymakings.chess.Logic.GameInfo;
 import com.imaginarymakings.chess.Logic.Piece;
 import com.imaginarymakings.chess.Logic.SpaceAdapter;
+import com.imaginarymakings.chess.R;
+import com.imaginarymakings.chess.Utils.NetworkManager;
 import com.imaginarymakings.chess.Utils.Utils;
 
 public class ChessActivity extends AppCompatActivity {
@@ -37,10 +40,13 @@ public class ChessActivity extends AppCompatActivity {
 
     private NetworkManager nm;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
+
+        final Context c = this;
 
         overlay = findViewById(R.id.dragImage);
         gv = findViewById(R.id.chessGrid);
@@ -80,6 +86,8 @@ public class ChessActivity extends AppCompatActivity {
                                 doAIMove();
 
                             checkForGameLost();
+                        } else {
+                            Toast.makeText(c, R.string.invalid_move, Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -89,7 +97,6 @@ public class ChessActivity extends AppCompatActivity {
         });
 
         final SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-        final Context c = this;
 
         Button reset = findViewById(R.id.deleteGame);
         reset.setOnClickListener(new View.OnClickListener() {

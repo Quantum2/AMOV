@@ -289,44 +289,34 @@ public class ChessMoves {
         Piece originalPiece = pieces[pos];
 
         if (posTo > pos){
-            pos = pos + 7;
+            while (pos >= 0 && pos <= 63 && pos != posTo){
+                if (pieces[pos] == Piece.EMPTY)
+                    pos = pos + 7;
+                else
+                    return false;
 
-            while (pos >= 0 && pos <= 63){
-                if (pieces[pos] == Piece.EMPTY && pos == posTo)
-                    return true;
-                else if (pos == posTo)
-                    return oppositeColor(originalPiece, pieces[posTo]);
-
-                pos = pos + 2;
-
-                if (pieces[pos] == Piece.EMPTY && pos == posTo)
-                    return true;
-                else if (pos == posTo)
-                    return oppositeColor(originalPiece, pieces[posTo]);
-
-                pos = pos + 7;
+                if (pieces[pos] == Piece.EMPTY )
+                    pos = pos + 2;
+                else
+                    return false;
             }
+
+            return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
         } else {
-            pos = pos - 7;
-
-            while (pos >= 0 && pos <= 63){
-                if (pieces[pos] == Piece.EMPTY && pos == posTo)
-                    return true;
-                else if (pos == posTo)
-                    return oppositeColor(originalPiece, pieces[posTo]);
-
-                pos = pos - 2;
+            while (pos >= 0 && pos <= 63 && pos != posTo){
+                if (pieces[pos] == Piece.EMPTY )
+                    pos = pos - 7;
+                else
+                    return false;
 
                 if (pieces[pos] == Piece.EMPTY && pos == posTo)
-                    return true;
-                else if (pos == posTo)
-                    return oppositeColor(originalPiece, pieces[posTo]);
-
-                pos = pos - 7;
+                    pos = pos - 2;
+                else
+                    return false;
             }
-        }
 
-        return false;
+            return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+        }
     }
 
     private static boolean canKnightMove(int pos, int posTo, Piece[] pieces){

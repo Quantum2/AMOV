@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess;
+package com.imaginarymakings.chess.Activities;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,8 +12,10 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.imaginarymakings.chess.Logic.Profile;
+import com.imaginarymakings.chess.R;
 import com.imaginarymakings.chess.Utils.Utils;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -29,6 +31,9 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         EditText ed = findViewById(R.id.editName);
+        TextView won = findViewById(R.id.wonGames);
+        TextView lost = findViewById(R.id.lostGames);
+
         iv = findViewById(R.id.editPhoto);
         playerProfile = Profile.getLoadedProfile(this);
 
@@ -72,6 +77,9 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        won.setText(playerProfile.wonGames);
+        lost.setText(playerProfile.lostGames);
     }
 
     @Override

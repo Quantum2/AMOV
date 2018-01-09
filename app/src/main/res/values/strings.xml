@@ -15,4 +15,5 @@
     <string name="confirm_ip">OK</string>
     <string name="invalid_ip">Invalid IP address</string>
     <string name="name_hint_profile">Name</string>
+    <string name="invalid_move">Invalid move</string>
 </resources>
