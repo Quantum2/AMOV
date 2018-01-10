@@ -290,12 +290,15 @@ public class ChessMoves {
 
         if (posTo > pos){
             while (pos >= 0 && pos <= 63 && pos != posTo){
-                if (pieces[pos] == Piece.EMPTY)
+                if (pieces[pos] == Piece.EMPTY || pos == posTo)
                     pos = pos + 7;
                 else
                     return false;
 
-                if (pieces[pos] == Piece.EMPTY )
+                if (pos == posTo)
+                    return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+
+                if (pieces[pos] == Piece.EMPTY || pos == posTo)
                     pos = pos + 2;
                 else
                     return false;
@@ -304,12 +307,15 @@ public class ChessMoves {
             return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
         } else {
             while (pos >= 0 && pos <= 63 && pos != posTo){
-                if (pieces[pos] == Piece.EMPTY )
+                if (pieces[pos] == Piece.EMPTY || pos == posTo)
                     pos = pos - 7;
                 else
                     return false;
 
-                if (pieces[pos] == Piece.EMPTY && pos == posTo)
+                if (pos == posTo)
+                    return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+
+                if (pieces[pos] == Piece.EMPTY || pos == posTo)
                     pos = pos - 2;
                 else
                     return false;
