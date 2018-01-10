@@ -17,4 +17,9 @@
     <string name="invalid_ip">Invalid IP address</string>
     <string name="name_hint_profile">Name</string>
     <string name="invalid_move">Invalid move</string>
+    <string name="new_game">New game</string>
+    <string name="won_label">Won:</string>
+    <string name="lost_label">Lost:</string>
+    <string name="ai_profile_name">AI</string>
+    <string name="no_profile">No profile</string>
 </resources>

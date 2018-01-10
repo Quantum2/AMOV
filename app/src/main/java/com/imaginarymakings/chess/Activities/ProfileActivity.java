@@ -3,6 +3,8 @@ package com.imaginarymakings.chess.Activities;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +30,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
 
         EditText ed = findViewById(R.id.editName);
         TextView won = findViewById(R.id.wonGames);
@@ -77,8 +83,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        won.setText("Won: " + playerProfile.wonGames);
-        lost.setText("Lost: " + playerProfile.lostGames);
+        won.setText(getString(R.string.won_label) + playerProfile.wonGames);
+        lost.setText(getString(R.string.lost_label) + playerProfile.lostGames);
     }
 
     @Override

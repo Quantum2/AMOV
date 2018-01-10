@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +23,10 @@ import com.google.gson.Gson;
 import com.imaginarymakings.chess.Dialogs.ChooseDialog;
 import com.imaginarymakings.chess.Logic.ChessMoves;
 import com.imaginarymakings.chess.Logic.GameInfo;
+import com.imaginarymakings.chess.Logic.PastGame;
 import com.imaginarymakings.chess.Logic.Piece;
+import com.imaginarymakings.chess.Logic.Player;
+import com.imaginarymakings.chess.Logic.Profile;
 import com.imaginarymakings.chess.Logic.SpaceAdapter;
 import com.imaginarymakings.chess.R;
 import com.imaginarymakings.chess.Utils.NetworkManager;
@@ -35,7 +40,14 @@ public class ChessActivity extends AppCompatActivity {
     ImageView overlay;
     TextView tv;
 
+    TextView localName;
+    TextView opponentName;
+
+    ImageView localProfile;
+    ImageView opponentProfile;
+
     private int movingPiece;
+    private PastGame game;
 
     private NetworkManager nm;
 
@@ -44,11 +56,22 @@ public class ChessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chess);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.BLACK);
+        }
+
         final Context c = this;
+        game = new PastGame();
 
         overlay = findViewById(R.id.dragImage);
         gv = findViewById(R.id.chessGrid);
         tv = findViewById(R.id.editText);
+
+        localName = findViewById(R.id.nameLocal);
+        opponentName = findViewById(R.id.nameOpponent);
+
+        localProfile = findViewById(R.id.imageLocal);
+        opponentProfile = findViewById(R.id.imageOpponent);
 
         gv.setAdapter(new SpaceAdapter(this));
         gv.setOnTouchListener(new View.OnTouchListener() {
@@ -82,7 +105,10 @@ public class ChessActivity extends AppCompatActivity {
 
                             if (nm == null)
                                 doAIMove();
+                            else
+                                nm.gameInfo = ((SpaceAdapter) gv.getAdapter()).getGameInfo();
 
+                            game.addMovement(movingPiece, position);
                             checkForGameLost();
                         } else {
                             Toast.makeText(c, R.string.invalid_move, Toast.LENGTH_SHORT).show();
@@ -110,19 +136,25 @@ public class ChessActivity extends AppCompatActivity {
             }
         });
 
-        Gson gson = new Gson();
-        String json = mPrefs.getString("game", "");
-        GameInfo obj = gson.fromJson(json, GameInfo.class);
-
-        if (obj != null)
-            ((SpaceAdapter) gv.getAdapter()).setGameInfo(obj);
-
         LocalBroadcastManager.getInstance(this).registerReceiver(refreshReceived,
                 new IntentFilter("refresh"));
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.getBoolean("mp")){
             setupMP();
+        } else {
+            Gson gson = new Gson();
+            String json = mPrefs.getString("game", "");
+            GameInfo obj = gson.fromJson(json, GameInfo.class);
+
+            if (obj != null)
+                ((SpaceAdapter) gv.getAdapter()).setGameInfo(obj);
+
+            opponentName.setText(R.string.ai_profile_name);
+
+            Profile profile = Profile.getLoadedProfile(this);
+            if (profile == null)
+                localName.setText(R.string.no_profile);
         }
     }
 
@@ -175,15 +207,17 @@ public class ChessActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String ipAddress = intent.getStringExtra("ip");
             nm.startClient(ipAddress);
-
-            tv.setText(String.format(getString(R.string.your_ip), nm.getCurrentIP()));
-            tv.setText(String.format("%s\n%s", tv.getText(), getString(R.string.waiting_conn)));
         }
     };
 
     private BroadcastReceiver refreshReceived = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            GameInfo gameInfo = (GameInfo) intent.getSerializableExtra("gameInfo");
+            if (gameInfo != null){
+                ((SpaceAdapter) gv.getAdapter()).setGameInfo(gameInfo);
+            }
+
             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
             checkForGameLost();
         }
@@ -221,11 +255,26 @@ public class ChessActivity extends AppCompatActivity {
                 kingBlack = true;
         }
 
-        if (!kingBlack && !kingWhite){
+        if (!kingBlack || !kingWhite){
             //Game finished
             gv.setEnabled(false);
 
             Toast.makeText(this, "Game ended", Toast.LENGTH_LONG).show();
+
+            Profile profile = Profile.getLoadedProfile(this);
+            if (profile == null){
+                Toast.makeText(this, "No active profile, so no stats were saved", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (adapter.whoAmI == Player.WHITE && kingWhite){
+                game.won = true;
+                profile.wonGames++;
+            } else {
+                profile.lostGames++;
+            }
+
+            profile.saveProfileToSharedPreferences(this);
         }
     }
 }

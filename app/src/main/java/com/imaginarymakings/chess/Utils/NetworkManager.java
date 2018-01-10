@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.support.v4.content.LocalBroadcastManager;
 
+import com.imaginarymakings.chess.Activities.MainActivity;
 import com.imaginarymakings.chess.Logic.GameInfo;
 import com.imaginarymakings.chess.Logic.Player;
 import com.imaginarymakings.chess.Logic.SpaceAdapter;
-import com.imaginarymakings.chess.Activities.MainActivity;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,6 +27,8 @@ public class NetworkManager {
 
     private Context c;
     private SpaceAdapter adapter;
+
+    public GameInfo gameInfo = null;
 
     public void endGame(){
         end = true;
@@ -55,15 +58,20 @@ public class NetworkManager {
                     ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
 
                     while (!end){
+                        while (gameInfo == null)
+                            Thread.sleep(150);
+                        os.writeObject(gameInfo);
+                        gameInfo = null;
                         GameInfo gm = (GameInfo) is.readObject();
-                        adapter.setGameInfo(gm);
 
-                        os.writeObject(adapter.getGameInfo());
+                        Intent intent = new Intent("refresh");
+                        intent.putExtra("gameInfo", gm);
+                        LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
                     }
 
                     s.close();
                     ss.close();
-                } catch (IOException | ClassNotFoundException e) {
+                } catch (InterruptedException | IOException | ClassNotFoundException e) {
                     e.printStackTrace();
 
                     Intent intent = new Intent(c, MainActivity.class);
@@ -82,25 +90,26 @@ public class NetworkManager {
             public void run() {
                 try {
                     Socket s = new Socket(ip, SERVER_PORT);
-                    s.setSoTimeout(200);
 
                     ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
                     ObjectInputStream is = new ObjectInputStream(s.getInputStream());
 
                     while (!end){
-                        try {
-                            os.writeObject(adapter.getGameInfo());
+                        GameInfo gm = (GameInfo) is.readObject();
 
-                            GameInfo gm = (GameInfo) is.readObject();
-                            adapter.setGameInfo(gm);
-                        } catch (IOException e){
-                            //Do nothing here
-                        }
+                        Intent intent = new Intent("refresh");
+                        intent.putExtra("gameInfo", gm);
+                        LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
+
+                        while (gameInfo == null)
+                            Thread.sleep(150);
+                        os.writeObject(gameInfo);
+                        gameInfo = null;
                     }
 
                     os.close();
                     s.close();
-                } catch (IOException | ClassNotFoundException e) {
+                } catch (InterruptedException | IOException | ClassNotFoundException e) {
                     e.printStackTrace();
 
                     Intent intent = new Intent(c, MainActivity.class);
