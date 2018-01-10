@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Base64;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.imaginarymakings.chess.Logic.Piece;
 import com.imaginarymakings.chess.R;
@@ -128,5 +129,9 @@ public class Utils {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
 
         return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+    }
+
+    public static void addTextToTicker(TextView tv){
+
     }
 }

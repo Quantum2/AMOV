@@ -42,12 +42,24 @@ public class ChessMoves {
                         }
                         break;
                     case QUEEN_WHITE:
+                        if (!canBishopMove(piece, postitionTo, adapter.pieces) && !canRookMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case QUEEN_BLACK:
+                        if (!canBishopMove(piece, postitionTo, adapter.pieces) && !canRookMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case KING_WHITE:
+                        if (!canKingMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case KING_BLACK:
+                        if (!canKingMove(piece, postitionTo, adapter.pieces)){
+                            return false;
+                        }
                         break;
                     case KNIGHT_WHITE:
                         if (!canKnightMove(piece, postitionTo, adapter.pieces)){
@@ -412,5 +424,12 @@ public class ChessMoves {
         }
 
         return false;
+    }
+
+    private static boolean canKingMove(int pos, int posTo, Piece[] pieces){
+        if (Math.abs(pos - posTo) <= 9)
+            return pieces[posTo] == Piece.EMPTY || oppositeColor(pieces[pos], pieces[posTo]);
+        else
+            return false;
     }
 }
