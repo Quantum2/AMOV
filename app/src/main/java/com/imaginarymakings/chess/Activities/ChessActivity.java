@@ -1,6 +1,5 @@
 package com.imaginarymakings.chess.Activities;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +39,6 @@ public class ChessActivity extends AppCompatActivity {
 
     private NetworkManager nm;
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +85,7 @@ public class ChessActivity extends AppCompatActivity {
 
                             checkForGameLost();
                         } else {
-                            Toast.makeText(c, R.string.invalid_move, Toast.LENGTH_LONG).show();
+                            Toast.makeText(c, R.string.invalid_move, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }

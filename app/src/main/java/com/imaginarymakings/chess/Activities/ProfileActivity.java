@@ -3,10 +3,9 @@ package com.imaginarymakings.chess.Activities;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -78,8 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        won.setText(playerProfile.wonGames);
-        lost.setText(playerProfile.lostGames);
+        won.setText("Won: " + playerProfile.wonGames);
+        lost.setText("Lost: " + playerProfile.lostGames);
     }
 
     @Override

@@ -160,6 +160,16 @@ public class ChessMoves {
         return temp;
     }
 
+    private static int[][] getFullMatrix(){
+        int[][] fullMatrix = new int[8][8];
+
+        for (int i = 0; i < 8; i++){
+            fullMatrix[i] = getLineOfEight(i);
+        }
+
+        return fullMatrix;
+    }
+
     private static int getWhichLine(int pos){
         int counter = 0;
 
@@ -287,42 +297,103 @@ public class ChessMoves {
 
     private static boolean canBishopMove(int pos, int posTo, Piece[] pieces){
         Piece originalPiece = pieces[pos];
+        int originalPos = pos;
+
+        int[][] matrix = getFullMatrix();
+        int x = 0, y = 0;
+        int xTemp, yTemp;
+
+        for (int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                if (matrix[i][j] == pos){
+                    x = i;
+                    y = j;
+
+                    break;
+                }
+            }
+        }
+
+        if (Math.abs(pos - posTo) == 1 || Math.abs(pos - posTo) == 8)
+            return false;
 
         if (posTo > pos){
-            while (pos >= 0 && pos <= 63 && pos != posTo){
-                if (pieces[pos] == Piece.EMPTY || pos == posTo)
-                    pos = pos + 7;
-                else
-                    return false;
+            xTemp = x;
+            yTemp = y;
 
-                if (pos == posTo)
-                    return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+            if (getWhichColumn(pos) < getWhichColumn(posTo)){
+                while (x < 8 && y < 8 && pos != posTo){
+                    if (xTemp > 7 || xTemp < 0 || yTemp > 7 || yTemp < 0)
+                        break;
 
-                if (pieces[pos] == Piece.EMPTY || pos == posTo)
-                    pos = pos + 2;
-                else
-                    return false;
+                    pos = matrix[xTemp][yTemp];
+
+                    if (pos == posTo)
+                        return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+
+                    if (pieces[pos] == Piece.EMPTY || pos == originalPos){
+                        xTemp++;
+                        yTemp++;
+                    } else
+                        return false;
+                }
+            } else {
+                while (x < 8 && y < 8 && pos != posTo){
+                    if (xTemp > 7 || xTemp < 0 || yTemp > 7 || yTemp < 0)
+                        break;
+
+                    pos = matrix[xTemp][yTemp];
+
+                    if (pos == posTo)
+                        return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+
+                    if (pieces[pos] == Piece.EMPTY || pos == originalPos){
+                        xTemp++;
+                        yTemp--;
+                    } else
+                        return false;
+                }
             }
-
-            return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
         } else {
-            while (pos >= 0 && pos <= 63 && pos != posTo){
-                if (pieces[pos] == Piece.EMPTY || pos == posTo)
-                    pos = pos - 7;
-                else
-                    return false;
+            xTemp = x;
+            yTemp = y;
 
-                if (pos == posTo)
-                    return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+            if (getWhichColumn(pos) < getWhichColumn(posTo)){
+                while (x < 8 && y < 8 && pos != posTo){
+                    if (xTemp > 7 || xTemp < 0 || yTemp > 7 || yTemp < 0)
+                        break;
 
-                if (pieces[pos] == Piece.EMPTY || pos == posTo)
-                    pos = pos - 2;
-                else
-                    return false;
+                    pos = matrix[xTemp][yTemp];
+
+                    if (pos == posTo)
+                        return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+
+                    if (pieces[pos] == Piece.EMPTY || pos == originalPos){
+                        xTemp--;
+                        yTemp++;
+                    } else
+                        return false;
+                }
+            } else {
+                while (x < 8 && y < 8 && pos != posTo){
+                    if (xTemp > 7 || xTemp < 0 || yTemp > 7 || yTemp < 0)
+                        break;
+
+                    pos = matrix[xTemp][yTemp];
+
+                    if (pos == posTo)
+                        return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
+
+                    if (pieces[pos] == Piece.EMPTY || pos == originalPos){
+                        xTemp--;
+                        yTemp--;
+                    } else
+                        return false;
+                }
             }
-
-            return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
         }
+
+        return pieces[pos] == Piece.EMPTY || oppositeColor(originalPiece, pieces[posTo]);
     }
 
     private static boolean canKnightMove(int pos, int posTo, Piece[] pieces){
