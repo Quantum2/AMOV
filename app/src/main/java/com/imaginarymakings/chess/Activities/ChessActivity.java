@@ -325,7 +325,6 @@ public class ChessActivity extends AppCompatActivity {
         if (!kingBlack || !kingWhite){
             //Game finished
             gv.setEnabled(false);
-
             Toast.makeText(this, "Game ended", Toast.LENGTH_LONG).show();
 
             Profile profile = Profile.getLoadedProfile(this);
@@ -339,6 +338,12 @@ public class ChessActivity extends AppCompatActivity {
                 profile.wonGames++;
             } else {
                 profile.lostGames++;
+            }
+
+            if (!kingBlack){
+                Utils.addTextToTicker(tv, Utils.getPlayerLocalizedName(Player.WHITE, this) + getString(R.string.player_won));
+            } else {
+                Utils.addTextToTicker(tv, Utils.getPlayerLocalizedName(Player.BLACK, this) + getString(R.string.player_won));
             }
 
             profile.saveProfileToSharedPreferences(this);

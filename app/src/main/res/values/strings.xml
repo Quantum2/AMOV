@@ -26,4 +26,5 @@
     <string name="connecting">Connecting...</string>
     <string name="white_player">Whites</string>
     <string name="black_player">Blacks</string>
+    <string name="player_won">won !</string>
 </resources>
