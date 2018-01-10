@@ -145,6 +145,13 @@ public class ChessActivity extends AppCompatActivity {
                 prefsEditor.remove("game");
                 prefsEditor.apply();
 
+                if (nm != null){
+                    GameInfo gm = ((SpaceAdapter) gv.getAdapter()).getGameInfo();
+                    gm.turn = -1;
+
+                    nm.gameInfo = gm;
+                }
+
                 gv.setEnabled(true);
             }
         });
@@ -154,6 +161,7 @@ public class ChessActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null && extras.getBoolean("mp")){
+            gv.setEnabled(false);
             setupMP();
         } else {
             Gson gson = new Gson();
@@ -207,6 +215,9 @@ public class ChessActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(clientReceived,
                 new IntentFilter("client"));
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(connected,
+                new IntentFilter("connected"));
+
         nm = new NetworkManager(this, (SpaceAdapter) gv.getAdapter());
 
         ChooseDialog dialog = new ChooseDialog(this);
@@ -217,9 +228,7 @@ public class ChessActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             nm.startServer();
-
             tv.setText(String.format(getString(R.string.your_ip), nm.getCurrentIP()));
-            tv.setText(String.format("%s\n%s", tv.getText(), getString(R.string.waiting_conn)));
         }
     };
 
@@ -228,6 +237,8 @@ public class ChessActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String ipAddress = intent.getStringExtra("ip");
             nm.startClient(ipAddress);
+
+            tv.setText(R.string.connecting);
         }
     };
 
@@ -251,6 +262,21 @@ public class ChessActivity extends AppCompatActivity {
 
             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
             checkForGameLost();
+        }
+    };
+
+    private BroadcastReceiver connected = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            gv.setEnabled(true);
+            Utils.addTextToTicker(tv, "Connected");
+
+            GameInfo gm = new GameInfo();
+            Profile profile = Profile.getLoadedProfile(context);
+            if (profile != null)
+                gm.profile = profile;
+
+            nm.gameInfo = gm;
         }
     };
 

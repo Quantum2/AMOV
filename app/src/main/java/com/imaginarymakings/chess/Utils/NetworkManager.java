@@ -54,6 +54,9 @@ public class NetworkManager {
                     ServerSocket ss = new ServerSocket(SERVER_PORT);
                     Socket s = ss.accept();
 
+                    Intent temp = new Intent("connected");
+                    LocalBroadcastManager.getInstance(c).sendBroadcast(temp);
+
                     ObjectInputStream is = new ObjectInputStream(s.getInputStream());
                     ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
 
@@ -91,6 +94,9 @@ public class NetworkManager {
             public void run() {
                 try {
                     Socket s = new Socket(ip, SERVER_PORT);
+
+                    Intent temp = new Intent("connected");
+                    LocalBroadcastManager.getInstance(c).sendBroadcast(temp);
 
                     ObjectOutputStream os = new ObjectOutputStream(s.getOutputStream());
                     ObjectInputStream is = new ObjectInputStream(s.getInputStream());

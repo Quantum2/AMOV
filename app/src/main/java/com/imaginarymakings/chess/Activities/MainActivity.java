@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.imaginarymakings.chess.Logic.Profile;
 import com.imaginarymakings.chess.R;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (getIntent().getExtras() != null){
-
+            Toast.makeText(this, getIntent().getStringExtra("error"), Toast.LENGTH_LONG).show();
         }
     }
 }

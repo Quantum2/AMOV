@@ -18,10 +18,11 @@
     <string name="name_hint_profile">Name</string>
     <string name="invalid_move">Invalid move</string>
     <string name="new_game">New game</string>
-    <string name="won_label">Won:</string>
-    <string name="lost_label">Lost:</string>
+    <string name="won_label">"Won games : "</string>
+    <string name="lost_label">"Lost games : "</string>
     <string name="ai_profile_name">AI</string>
     <string name="no_profile">No profile</string>
     <string name="whites">White</string>
     <string name="blacks">Black</string>
+    <string name="connecting">Connecting...</string>
 </resources>

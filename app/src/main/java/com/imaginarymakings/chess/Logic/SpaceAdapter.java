@@ -252,7 +252,7 @@ public class SpaceAdapter extends BaseAdapter {
     }
 
     public void setGameInfo(GameInfo gm){
-        if (gm.turn > currentTurn){
+        if (gm.turn > currentTurn || gm.turn == -1){
             currentPlayer = gm.currentPlayer;
             pieces = gm.piecesMoved;
 

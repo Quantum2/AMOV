@@ -1,6 +1,5 @@
 package com.imaginarymakings.chess.Logic;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -25,7 +24,7 @@ public class Profile implements Serializable {
     }
 
     public static Profile getLoadedProfile(Context c){
-        SharedPreferences sharedPref = ((Activity) c).getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = c.getSharedPreferences("User", Context.MODE_PRIVATE);
 
         Gson gson = new Gson();
         String json = sharedPref.getString("Profile", "");
@@ -33,7 +32,7 @@ public class Profile implements Serializable {
     }
 
     public void saveProfileToSharedPreferences(Context c){
-        SharedPreferences sharedPref = ((Activity) c).getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = c.getSharedPreferences("User", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor prefsEditor = sharedPref.edit();
         Gson gson = new Gson();
@@ -43,7 +42,7 @@ public class Profile implements Serializable {
     }
 
     public static void deleteProfile(Context c){
-        SharedPreferences sharedPref = ((Activity) c).getSharedPreferences("User", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = c.getSharedPreferences("User", Context.MODE_PRIVATE);
 
         sharedPref.edit().remove("Profile").apply();
     }

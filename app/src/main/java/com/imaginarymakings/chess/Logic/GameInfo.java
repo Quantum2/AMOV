@@ -12,4 +12,6 @@ public class GameInfo implements Serializable {
 
     public Player currentPlayer;
     public int turn = 0;
+
+    public String message;
 }

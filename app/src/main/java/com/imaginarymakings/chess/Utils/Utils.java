@@ -131,7 +131,10 @@ public class Utils {
         return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
     }
 
-    public static void addTextToTicker(TextView tv){
+    public static void addTextToTicker(TextView tv, String text){
+        String currentText = tv.getText().toString();
+        String temp = currentText + "\n" + text;
 
+        tv.setText(temp);
     }
 }
