@@ -24,4 +24,8 @@
     <string name="whites">Brancas</string>
     <string name="blacks">Pretas</string>
     <string name="no_profile">Sem perfil</string>
+    <string name="connecting">A conectar...</string>
+    <string name="white_player">Brancas</string>
+    <string name="black_player">Pretas</string>
+    <string name="player_won">" ganharam !"</string>
 </resources>

@@ -100,6 +100,14 @@ public class ChessMoves {
                 adapter.pieces[piece] = Piece.EMPTY;
                 adapter.pieces[postitionTo] = temp;
 
+                if (getWhichLine(postitionTo) == 0 && temp == Piece.PAWN_WHITE){
+                    adapter.pieces[postitionTo] = Piece.QUEEN_WHITE;
+                }
+
+                if (getWhichLine(postitionTo) == 7 && temp == Piece.PAWN_BLACK){
+                    adapter.pieces[postitionTo] = Piece.QUEEN_BLACK;
+                }
+
                 if (adapter.currentPlayer == Player.WHITE)
                     adapter.currentPlayer = Player.BLACK;
                 else
