@@ -258,7 +258,9 @@ public class ChessActivity extends AppCompatActivity {
 
                 if (gameInfo.turn == -1){
                     gv.setAdapter(new SpaceAdapter(context));
-                    ((SpaceAdapter) gv.getAdapter()).whoAmI = Player.BLACK;
+
+                    if (!nm.isServer)
+                        ((SpaceAdapter) gv.getAdapter()).whoAmI = Player.BLACK;
                 }
             }
 

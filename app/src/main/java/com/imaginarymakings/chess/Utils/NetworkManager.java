@@ -30,6 +30,7 @@ public class NetworkManager {
     private SpaceAdapter adapter;
 
     public GameInfo gameInfo = null;
+    public boolean isServer;
 
     public void endGame(){
         end = true;
@@ -48,6 +49,8 @@ public class NetworkManager {
     }
 
     public void startServer() {
+        isServer = true;
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -92,6 +95,7 @@ public class NetworkManager {
 
     public void startClient(final String ip) {
         adapter.whoAmI = Player.BLACK;
+        isServer = false;
 
         new Thread(new Runnable() {
             @Override
