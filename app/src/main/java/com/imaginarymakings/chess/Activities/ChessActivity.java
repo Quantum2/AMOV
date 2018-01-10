@@ -242,7 +242,15 @@ public class ChessActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             GameInfo gameInfo = (GameInfo) intent.getSerializableExtra("gameInfo");
             if (gameInfo != null){
-                Utils.addTextToTicker(tv, Utils.getPlayerLocalizedName(((SpaceAdapter) gv.getAdapter()).currentPlayer, context) + ": " + gameInfo.message);
+                Player temp;
+                if (((SpaceAdapter) gv.getAdapter()).currentPlayer == Player.WHITE){
+                    temp = Player.BLACK;
+                } else {
+                    temp = Player.WHITE;
+                }
+
+                if (gameInfo.message != null)
+                    Utils.addTextToTicker(tv, Utils.getPlayerLocalizedName(temp, context) + ": " + gameInfo.message);
 
                 ((SpaceAdapter) gv.getAdapter()).setGameInfo(gameInfo);
 

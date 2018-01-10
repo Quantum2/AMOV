@@ -25,10 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ChessActivity">
-        </activity>
-        <activity android:name=".Activities.ProfileActivity">
-        </activity>
+        <activity android:name=".Activities.ChessActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.ProfileActivity" />
     </application>
 
 </manifest>
