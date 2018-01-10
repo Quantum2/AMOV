@@ -14,6 +14,7 @@ import com.imaginarymakings.chess.Logic.SpaceAdapter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -51,7 +52,10 @@ public class NetworkManager {
             @Override
             public void run() {
                 try {
-                    ServerSocket ss = new ServerSocket(SERVER_PORT);
+                    ServerSocket ss = new ServerSocket();
+                    ss.setReuseAddress(true);
+                    ss.bind(new InetSocketAddress(SERVER_PORT));
+
                     Socket s = ss.accept();
                     ss.close();
 
