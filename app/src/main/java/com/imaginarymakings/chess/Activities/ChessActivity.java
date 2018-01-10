@@ -108,10 +108,12 @@ public class ChessActivity extends AppCompatActivity {
                     if (position != -1){
                         if (ChessMoves.movePiece(movingPiece, position, ((SpaceAdapter) gv.getAdapter()), false)){
                             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
+                            Utils.addTextToTicker(tv, Utils.getPlayerLocalizedName(((SpaceAdapter) gv.getAdapter()).currentPlayer, c) + ": " + ((SpaceAdapter) gv.getAdapter()).lastMessage);
 
-                            if (nm == null)
+                            if (nm == null){
                                 doAIMove();
-                            else{
+                                Utils.addTextToTicker(tv, Utils.getPlayerLocalizedName(((SpaceAdapter) gv.getAdapter()).currentPlayer, c) + ": " + ((SpaceAdapter) gv.getAdapter()).lastMessage);
+                            } else{
                                 GameInfo gm = ((SpaceAdapter) gv.getAdapter()).getGameInfo();
                                 Profile profile = Profile.getLoadedProfile(c);
                                 if (profile != null)
@@ -145,6 +147,7 @@ public class ChessActivity extends AppCompatActivity {
                 prefsEditor.apply();
 
                 gv.setEnabled(true);
+                tv.setText("");
             }
         });
 
@@ -239,6 +242,8 @@ public class ChessActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             GameInfo gameInfo = (GameInfo) intent.getSerializableExtra("gameInfo");
             if (gameInfo != null){
+                Utils.addTextToTicker(tv, Utils.getPlayerLocalizedName(((SpaceAdapter) gv.getAdapter()).currentPlayer, context) + ": " + gameInfo.message);
+
                 ((SpaceAdapter) gv.getAdapter()).setGameInfo(gameInfo);
 
                 if (gameInfo.profile != null){
@@ -255,8 +260,6 @@ public class ChessActivity extends AppCompatActivity {
                     gv.setAdapter(new SpaceAdapter(context));
                     ((SpaceAdapter) gv.getAdapter()).whoAmI = Player.BLACK;
                 }
-
-                Utils.addTextToTicker(tv, gameInfo.message);
             }
 
             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();

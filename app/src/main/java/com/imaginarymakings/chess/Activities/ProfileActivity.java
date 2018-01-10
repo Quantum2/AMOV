@@ -89,7 +89,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        playerProfile.saveProfileToSharedPreferences(this);
+        if (playerProfile.name.length() > 0)
+            playerProfile.saveProfileToSharedPreferences(this);
+
         super.onPause();
     }
 

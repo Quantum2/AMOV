@@ -33,6 +33,8 @@ public class SpaceAdapter extends BaseAdapter {
     public ArrayList<Piece> eatenWHITE;
     public ArrayList<Piece> eatenBLACK;
 
+    public String lastMessage;
+
     public SpaceAdapter(Context c) {
         context = c;
         currentId = 0;
@@ -247,6 +249,7 @@ public class SpaceAdapter extends BaseAdapter {
         gm.currentPlayer = currentPlayer;
         gm.turn = currentTurn;
         gm.piecesMoved = pieces;
+        gm.message = lastMessage;
 
         return gm;
     }

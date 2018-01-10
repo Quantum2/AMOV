@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imaginarymakings.chess.Logic.Piece;
+import com.imaginarymakings.chess.Logic.Player;
 import com.imaginarymakings.chess.R;
 
 import java.io.ByteArrayOutputStream;
@@ -134,9 +135,17 @@ public class Utils {
     public static void addTextToTicker(TextView tv, String text){
         if (text != null){
             String currentText = tv.getText().toString();
-            String temp = currentText + "\n" + text;
+            String temp = text + "\n" + currentText;
 
             tv.setText(temp);
+        }
+    }
+
+    public static String getPlayerLocalizedName(Player player, Context c){
+        if (player != Player.WHITE){
+            return c.getString(R.string.white_player);
+        } else {
+            return c.getString(R.string.black_player);
         }
     }
 }

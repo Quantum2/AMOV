@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (getIntent().getExtras() != null){
+        if (getIntent().getExtras() != null && getIntent().getExtras().getString("error") != null){
             Toast.makeText(this, getIntent().getStringExtra("error"), Toast.LENGTH_LONG).show();
         }
     }

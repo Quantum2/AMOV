@@ -8,7 +8,7 @@ import static com.imaginarymakings.chess.Utils.Utils.isIntInArray;
 
 public class ChessMoves {
 
-    private static final String[] cols = {"A", "B", "C", "D", "E", "F", "G", "H"};
+    private static final String[] cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
 
     public static boolean movePiece(int piece, int postitionTo, SpaceAdapter adapter, boolean isAI){
         if (piece == postitionTo)
@@ -25,13 +25,11 @@ public class ChessMoves {
                         if (!canPawnMoveWhite(piece, postitionTo, adapter.pieces) || getWhichLine(postitionTo) != (currentLine - 1)){
                             return false;
                         }
-
                         break;
                     case PAWN_BLACK:
                         if (!canPawnMoveBlack(piece, postitionTo, adapter.pieces) || getWhichLine(postitionTo) != (currentLine + 1)){
                             return false;
                         }
-
                         break;
                     case ROOK_WHITE:
                         if (!canRookMove(piece, postitionTo, adapter.pieces)){
@@ -86,6 +84,9 @@ public class ChessMoves {
                     case EMPTY:
                         return false;
                 }
+
+                //Generate move message
+                adapter.lastMessage = moveDescription(piece, postitionTo, adapter);
 
                 if (adapter.pieces[postitionTo] != Piece.EMPTY){
                     //Eats piece
@@ -433,5 +434,42 @@ public class ChessMoves {
             return pieces[posTo] == Piece.EMPTY || oppositeColor(pieces[pos], pieces[posTo]);
         else
             return false;
+    }
+
+    private static String moveDescription(int posFrom, int posTo, SpaceAdapter adapter) {
+        return getLocalizedPieceName(adapter.pieces[posFrom]) + cols[getWhichColumn(posFrom)] + (getWhichLine(posFrom) + 1) + " " + getLocalizedPieceName(adapter.pieces[posTo]) + cols[getWhichColumn(posTo)] + (getWhichLine(posTo) + 1);
+    }
+
+    private static String getLocalizedPieceName(Piece piece){
+        switch (piece) {
+            case PAWN_WHITE:
+                return "";
+            case PAWN_BLACK:
+                return "";
+            case ROOK_WHITE:
+                return "R";
+            case ROOK_BLACK:
+                return "R";
+            case QUEEN_WHITE:
+                return "Q";
+            case QUEEN_BLACK:
+                return "Q";
+            case KING_WHITE:
+                return "K";
+            case KING_BLACK:
+                return "K";
+            case KNIGHT_WHITE:
+                return "N";
+            case KNIGHT_BLACK:
+                return "N";
+            case BISHOP_WHITE:
+                return "B";
+            case BISHOP_BLACK:
+                return "B";
+            case EMPTY:
+                return "";
+        }
+
+        return "";
     }
 }
