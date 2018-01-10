@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess.Utils;
+package com.a21230528.chess.Utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,9 +9,9 @@ import android.util.Base64;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.imaginarymakings.chess.Logic.Piece;
-import com.imaginarymakings.chess.Logic.Player;
-import com.imaginarymakings.chess.R;
+import com.a21230528.chess.Logic.Piece;
+import com.a21230528.chess.Logic.Player;
+import com.a21230528.chess.R;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Random;

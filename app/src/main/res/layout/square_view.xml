@@ -6,7 +6,7 @@
               android:layout_height="wrap_content"
     >
 
-    <com.imaginarymakings.chess.Utils.SquareImageView
+    <com.a21230528.chess.Utils.SquareImageView
         android:id="@+id/pieceView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

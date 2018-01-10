@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess.Activities;
+package com.a21230528.chess.Activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,17 +20,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.imaginarymakings.chess.Dialogs.ChooseDialog;
-import com.imaginarymakings.chess.Logic.ChessMoves;
-import com.imaginarymakings.chess.Logic.GameInfo;
-import com.imaginarymakings.chess.Logic.PastGame;
-import com.imaginarymakings.chess.Logic.Piece;
-import com.imaginarymakings.chess.Logic.Player;
-import com.imaginarymakings.chess.Logic.Profile;
-import com.imaginarymakings.chess.Logic.SpaceAdapter;
-import com.imaginarymakings.chess.R;
-import com.imaginarymakings.chess.Utils.NetworkManager;
-import com.imaginarymakings.chess.Utils.Utils;
+import com.a21230528.chess.Dialogs.ChooseDialog;
+import com.a21230528.chess.Logic.ChessMoves;
+import com.a21230528.chess.Logic.GameInfo;
+import com.a21230528.chess.Logic.PastGame;
+import com.a21230528.chess.Logic.Piece;
+import com.a21230528.chess.Logic.Player;
+import com.a21230528.chess.Logic.Profile;
+import com.a21230528.chess.Logic.SpaceAdapter;
+import com.a21230528.chess.R;
+import com.a21230528.chess.Utils.NetworkManager;
+import com.a21230528.chess.Utils.Utils;
 
 public class ChessActivity extends AppCompatActivity {
 

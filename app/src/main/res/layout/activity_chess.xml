@@ -71,7 +71,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintTop_toBottomOf="@+id/profileLocalLayout"
-        tools:context="com.imaginarymakings.chess.Activities.ChessActivity">
+        tools:context="com.a21230528.chess.Activities.ChessActivity">
 
         <GridView
             android:id="@+id/chessGrid"

@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess.Logic;
+package com.a21230528.chess.Logic;
 
 import android.content.Context;
 import android.content.SharedPreferences;

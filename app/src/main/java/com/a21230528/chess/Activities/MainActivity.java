@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess.Activities;
+package com.a21230528.chess.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.imaginarymakings.chess.Logic.Profile;
-import com.imaginarymakings.chess.R;
-import com.imaginarymakings.chess.Utils.Utils;
+import com.a21230528.chess.Logic.Profile;
+import com.a21230528.chess.R;
+import com.a21230528.chess.Utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 

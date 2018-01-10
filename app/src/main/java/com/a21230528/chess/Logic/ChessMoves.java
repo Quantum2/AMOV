@@ -1,6 +1,6 @@
-package com.imaginarymakings.chess.Logic;
+package com.a21230528.chess.Logic;
 
-import static com.imaginarymakings.chess.Utils.Utils.isIntInArray;
+import static com.a21230528.chess.Utils.Utils.isIntInArray;
 
 /**
  * Created by rafaelfrancisco on 29/12/17.

@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess.Dialogs;
+package com.a21230528.chess.Dialogs;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.imaginarymakings.chess.R;
-import com.imaginarymakings.chess.Utils.Utils;
+import com.a21230528.chess.R;
+import com.a21230528.chess.Utils.Utils;
 
 /**
  * Created by rafaelfrancisco on 04/01/18.

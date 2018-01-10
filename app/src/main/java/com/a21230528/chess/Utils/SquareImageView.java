@@ -1,9 +1,8 @@
-package com.imaginarymakings.chess.Utils;
+package com.a21230528.chess.Utils;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 /**
  * Created by rafaelfrancisco on 29/12/17.

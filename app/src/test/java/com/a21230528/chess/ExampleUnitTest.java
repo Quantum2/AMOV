@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess;
+package com.a21230528.chess;
 
 import org.junit.Test;
 

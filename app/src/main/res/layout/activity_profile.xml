@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.imaginarymakings.chess.Activities.ProfileActivity">
+    tools:context="com.a21230528.chess.Activities.ProfileActivity">
 
     <ImageView
         android:id="@+id/editPhoto"

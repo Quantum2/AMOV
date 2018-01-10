@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess.Dialogs;
+package com.a21230528.chess.Dialogs;
 
 import android.app.DialogFragment;
 

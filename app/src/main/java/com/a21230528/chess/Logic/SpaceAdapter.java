@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess.Logic;
+package com.a21230528.chess.Logic;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.imaginarymakings.chess.R;
+import com.a21230528.chess.R;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.imaginarymakings.chess.Utils;
+package com.a21230528.chess.Utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,10 +6,10 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.imaginarymakings.chess.Activities.MainActivity;
-import com.imaginarymakings.chess.Logic.GameInfo;
-import com.imaginarymakings.chess.Logic.Player;
-import com.imaginarymakings.chess.Logic.SpaceAdapter;
+import com.a21230528.chess.Activities.MainActivity;
+import com.a21230528.chess.Logic.GameInfo;
+import com.a21230528.chess.Logic.Player;
+import com.a21230528.chess.Logic.SpaceAdapter;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
