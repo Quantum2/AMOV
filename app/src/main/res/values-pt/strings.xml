@@ -28,4 +28,5 @@
     <string name="white_player">Brancas</string>
     <string name="black_player">Pretas</string>
     <string name="player_won">" ganharam !"</string>
+    <string name="chess_app_title">Xadrez</string>
 </resources>
