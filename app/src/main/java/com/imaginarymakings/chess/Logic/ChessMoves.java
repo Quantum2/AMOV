@@ -8,6 +8,8 @@ import static com.imaginarymakings.chess.Utils.Utils.isIntInArray;
 
 public class ChessMoves {
 
+    private static final String[] cols = {"A", "B", "C", "D", "E", "F", "G", "H"};
+
     public static boolean movePiece(int piece, int postitionTo, SpaceAdapter adapter, boolean isAI){
         if (piece == postitionTo)
             return false;
@@ -86,7 +88,7 @@ public class ChessMoves {
                 }
 
                 if (adapter.pieces[postitionTo] != Piece.EMPTY){
-                    //Eats
+                    //Eats piece
                     if (adapter.currentPlayer == Player.WHITE){
                         adapter.eatenWHITE.add(adapter.pieces[postitionTo]);
                     } else {

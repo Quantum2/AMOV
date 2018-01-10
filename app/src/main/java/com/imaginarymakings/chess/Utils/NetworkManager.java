@@ -53,6 +53,7 @@ public class NetworkManager {
                 try {
                     ServerSocket ss = new ServerSocket(SERVER_PORT);
                     Socket s = ss.accept();
+                    ss.close();
 
                     Intent temp = new Intent("connected");
                     LocalBroadcastManager.getInstance(c).sendBroadcast(temp);
@@ -73,7 +74,6 @@ public class NetworkManager {
                     }
 
                     s.close();
-                    ss.close();
                 } catch (InterruptedException | IOException | ClassNotFoundException e) {
                     e.printStackTrace();
 
@@ -114,7 +114,6 @@ public class NetworkManager {
                         gameInfo = null;
                     }
 
-                    os.close();
                     s.close();
                 } catch (InterruptedException | IOException | ClassNotFoundException e) {
                     e.printStackTrace();

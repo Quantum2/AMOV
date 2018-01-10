@@ -132,9 +132,11 @@ public class Utils {
     }
 
     public static void addTextToTicker(TextView tv, String text){
-        String currentText = tv.getText().toString();
-        String temp = currentText + "\n" + text;
+        if (text != null){
+            String currentText = tv.getText().toString();
+            String temp = currentText + "\n" + text;
 
-        tv.setText(temp);
+            tv.setText(temp);
+        }
     }
 }

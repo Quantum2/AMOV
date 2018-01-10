@@ -120,7 +120,6 @@ public class ChessActivity extends AppCompatActivity {
                                 nm.gameInfo = gm;
                             }
 
-
                             game.addMovement(movingPiece, position);
                             checkForGameLost();
                         } else {
@@ -144,13 +143,6 @@ public class ChessActivity extends AppCompatActivity {
                 SharedPreferences.Editor prefsEditor = mPrefs.edit();
                 prefsEditor.remove("game");
                 prefsEditor.apply();
-
-                if (nm != null){
-                    GameInfo gm = ((SpaceAdapter) gv.getAdapter()).getGameInfo();
-                    gm.turn = -1;
-
-                    nm.gameInfo = gm;
-                }
 
                 gv.setEnabled(true);
             }
@@ -258,6 +250,13 @@ public class ChessActivity extends AppCompatActivity {
                     if (gameInfo.profile.photo != null)
                         opponentProfile.setImageBitmap(Utils.convert(gameInfo.profile.photo));
                 }
+
+                if (gameInfo.turn == -1){
+                    gv.setAdapter(new SpaceAdapter(context));
+                    ((SpaceAdapter) gv.getAdapter()).whoAmI = Player.BLACK;
+                }
+
+                Utils.addTextToTicker(tv, gameInfo.message);
             }
 
             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
