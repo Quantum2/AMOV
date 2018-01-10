@@ -22,4 +22,6 @@
     <string name="lost_label">Lost:</string>
     <string name="ai_profile_name">AI</string>
     <string name="no_profile">No profile</string>
+    <string name="whites">White</string>
+    <string name="blacks">Black</string>
 </resources>

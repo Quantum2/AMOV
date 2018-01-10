@@ -70,5 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        if (getIntent().getExtras() != null){
+
+        }
     }
 }

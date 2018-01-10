@@ -76,6 +76,7 @@ public class NetworkManager {
 
                     Intent intent = new Intent(c, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("error", e.toString());
                     c.startActivity(intent);
                 }
             }
@@ -114,6 +115,7 @@ public class NetworkManager {
 
                     Intent intent = new Intent(c, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("error", e.toString());
                     c.startActivity(intent);
                 }
             }

@@ -46,6 +46,9 @@ public class ChessActivity extends AppCompatActivity {
     ImageView localProfile;
     ImageView opponentProfile;
 
+    ImageView currentColor;
+    TextView currentColorText;
+
     private int movingPiece;
     private PastGame game;
 
@@ -72,6 +75,9 @@ public class ChessActivity extends AppCompatActivity {
 
         localProfile = findViewById(R.id.imageLocal);
         opponentProfile = findViewById(R.id.imageOpponent);
+
+        currentColor = findViewById(R.id.turn);
+        currentColorText = findViewById(R.id.colorDesc);
 
         gv.setAdapter(new SpaceAdapter(this));
         gv.setOnTouchListener(new View.OnTouchListener() {
@@ -105,8 +111,15 @@ public class ChessActivity extends AppCompatActivity {
 
                             if (nm == null)
                                 doAIMove();
-                            else
-                                nm.gameInfo = ((SpaceAdapter) gv.getAdapter()).getGameInfo();
+                            else{
+                                GameInfo gm = ((SpaceAdapter) gv.getAdapter()).getGameInfo();
+                                Profile profile = Profile.getLoadedProfile(c);
+                                if (profile != null)
+                                    gm.profile = profile;
+
+                                nm.gameInfo = gm;
+                            }
+
 
                             game.addMovement(movingPiece, position);
                             checkForGameLost();
@@ -151,11 +164,19 @@ public class ChessActivity extends AppCompatActivity {
                 ((SpaceAdapter) gv.getAdapter()).setGameInfo(obj);
 
             opponentName.setText(R.string.ai_profile_name);
-
-            Profile profile = Profile.getLoadedProfile(this);
-            if (profile == null)
-                localName.setText(R.string.no_profile);
         }
+
+        Profile profile = Profile.getLoadedProfile(this);
+        if (profile == null)
+            localName.setText(R.string.no_profile);
+        else {
+            localName.setText(profile.name);
+
+            if (profile.photo != null)
+                localProfile.setImageBitmap(Utils.convert(profile.photo));
+        }
+
+        checkForGameLost();
     }
 
     @Override
@@ -216,6 +237,16 @@ public class ChessActivity extends AppCompatActivity {
             GameInfo gameInfo = (GameInfo) intent.getSerializableExtra("gameInfo");
             if (gameInfo != null){
                 ((SpaceAdapter) gv.getAdapter()).setGameInfo(gameInfo);
+
+                if (gameInfo.profile != null){
+                    if (gameInfo.profile.name != null)
+                        opponentName.setText(gameInfo.profile.name);
+                    else
+                        opponentName.setText(R.string.no_profile);
+
+                    if (gameInfo.profile.photo != null)
+                        opponentProfile.setImageBitmap(Utils.convert(gameInfo.profile.photo));
+                }
             }
 
             ((SpaceAdapter) gv.getAdapter()).notifyDataSetChanged();
@@ -246,6 +277,14 @@ public class ChessActivity extends AppCompatActivity {
     private void checkForGameLost(){
         SpaceAdapter adapter = (SpaceAdapter) gv.getAdapter();
         boolean kingBlack = false, kingWhite = false;
+
+        if (adapter.currentPlayer == Player.WHITE){
+            currentColor.setImageResource(R.drawable.chess_blt60);
+            currentColorText.setText(R.string.whites);
+        } else {
+            currentColor.setImageResource(R.drawable.chess_bdt60);
+            currentColorText.setText(R.string.blacks);
+        }
 
         for (int i = 0; i < adapter.pieces.length; i++){
             if (adapter.pieces[i] == Piece.KING_WHITE)

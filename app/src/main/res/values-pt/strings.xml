@@ -21,4 +21,7 @@
     <string name="won_label">Jogos ganhos:</string>
     <string name="lost_label">Jogos perdidos:</string>
     <string name="ai_profile_name">IA</string>
+    <string name="whites">Brancas</string>
+    <string name="blacks">Pretas</string>
+    <string name="no_profile">Sem perfil</string>
 </resources>

@@ -12,11 +12,4 @@ public class GameInfo implements Serializable {
 
     public Player currentPlayer;
     public int turn = 0;
-
-    public void copyFromGM(GameInfo gm){
-        profile = gm.profile;
-        piecesMoved = gm.piecesMoved;
-        currentPlayer = gm.currentPlayer;
-        turn = gm.turn;
-    }
 }
